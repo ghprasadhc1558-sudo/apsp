@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battalion Details - APSP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/battalion-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-left"><span>Andhra Pradesh Government</span></div>
+                <div class="top-right">
+                    <a href="#" onclick="adjustFontSize('decrease')"><i class="fas fa-minus"></i> A</a>
+                    <a href="#" onclick="adjustFontSize('normal')">A</a>
+                    <a href="#" onclick="adjustFontSize('increase')"><i class="fas fa-plus"></i> A</a>
+                    <a href="admin-login.html" class="admin-link"><i class="fas fa-user-shield"></i> Admin Login</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo-section">
+                    <img src="images/logo.png" alt="APSP Logo" class="logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23003d82%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                    <div class="logo-text">
+                        <h1>ANDHRA PRADESH SPECIAL POLICE</h1>
+                        <p>Serving with Pride, Protecting with Courage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="dropdown"><a href="#"><i class="fas fa-info-circle"></i> About Us <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Overview</a></li>
+                            <li><a href="history.html">History</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="active"><i class="fas fa-shield-alt"></i> Battalions <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="battalions.html">All Battalions</a></li>
+                            <li><a href="battalion.html?id=1">1st Battalion</a></li>
+                            <li><a href="battalion.html?id=2">2nd Battalion</a></li>
+                            <li><a href="battalion.html?id=3">3rd Battalion</a></li>
+                            <li><a href="battalion.html?id=4">4th Battalion</a></li>
+                            <li><a href="battalion.html?id=5">5th Battalion</a></li>
+                            <li><a href="battalion.html?id=6">6th Battalion</a></li>
+                            <li><a href="battalion.html?id=7">7th Battalion</a></li>
+                            <li><a href="battalion.html?id=8">8th Battalion</a></li>
+                            <li><a href="battalion.html?id=9">9th Battalion</a></li>
+                            <li><a href="battalion.html?id=11">11th Battalion</a></li>
+                            <li><a href="battalion.html?id=14">14th Battalion</a></li>
+                            <li><a href="battalion.html?id=16">16th Battalion</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#"><i class="fas fa-users"></i> APSDRF <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sdrf.html">About SDRF</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                    <li class="dropdown"><a href="#"><i class="fas fa-newspaper"></i> News & Events <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="news.html">Latest News</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contacts.html"><i class="fas fa-phone"></i> Contact Us</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header" id="battalion-header">
+        <div class="container">
+            <h1 id="battalion-title"><i class="fas fa-shield-alt"></i> Loading...</h1>
+            <p id="battalion-subtitle">Loading...</p>
+        </div>
+    </section>
+
+    <section class="battalion-detail-section">
+        <div class="container">
+            <div class="back-link">
+                <a href="battalions.html"><i class="fas fa-arrow-left"></i> Back to All Battalions</a>
+            </div>
+
+            <!-- Battalion Image -->
+            <div class="battalion-image-section" id="battalion-image">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Commandant Information -->
+            <div class="commandant-section" id="commandant-info">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Companies/Groups Structure -->
+            <div class="structure-section" id="structure-info">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="website-policy.html">Website Policies</a>
+                    <a href="contacts.html">Contact Us</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2026 Andhra Pradesh Special Police</p>
+                    <p>IT Solution powered by National Informatics Centre (NIC), Andhra Pradesh</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/battalion-detail.js"></script>
+</body>
+</html>

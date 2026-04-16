@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Events - APSP Battalion Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .menu-toggle { position: fixed; top: 15px; left: 15px; z-index: 1001; background: #003d82; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #1e293b; color: white; position: fixed; height: 100vh; overflow-y: auto; transition: transform 0.3s; z-index: 1000; }
+        .sidebar.hidden { transform: translateX(-100%); }
+        .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; }
+        .sidebar-header h2 { color: white; font-size: 20px; margin-bottom: 5px; }
+        .sidebar-header p { color: #94a3b8; font-size: 14px; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { margin: 5px 0; }
+        .sidebar-menu a { display: flex; align-items: center; padding: 12px 20px; color: #cbd5e1; text-decoration: none; transition: all 0.3s; }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(59,130,246,0.1); color: white; border-left: 3px solid #3b82f6; }
+        .sidebar-menu i { margin-right: 12px; width: 20px; }
+        .main-content-admin { flex: 1; margin-left: 260px; padding: 20px; transition: margin-left 0.3s; }
+        .main-content-admin.full-width { margin-left: 0; }
+        .dashboard-header { background: linear-gradient(135deg, #e74c3c, #c0392b); padding: 20px 30px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; color: white; }
+        .dashboard-header h1 { font-size: 28px; }
+        .logout-btn { background: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logout-btn:hover { background: #b91c1c; }
+        .content-section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .content-section h2 { color: #1e293b; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .form-control { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 15px; margin-bottom: 15px; }
+        .form-control:focus { outline: none; border-color: #3b82f6; }
+        textarea.form-control { min-height: 120px; resize: vertical; font-family: Arial, sans-serif; }
+        .btn-primary { background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; margin-top: 10px; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-success { background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; }
+        .btn-danger { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+        .event-item { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #e74c3c; }
+        .event-item h3 { color: #e74c3c; margin-bottom: 10px; }
+        .event-meta { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .success-message { color: #16a34a; margin-top: 15px; display: none; padding: 10px; background: #dcfce7; border-radius: 6px; }
+        .error-message { color: #dc2626; margin-top: 15px; display: none; padding: 10px; background: #fee2e2; border-radius: 6px; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .main-content-admin { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="APSP Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ffffff%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23003d82%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                <h2>Battalion Admin</h2>
+                <p>battalion{{ battalion.battalion_number }}_admin</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="{{ url_for('main.battalion_admin_dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_edit') }}"><i class="fas fa-edit"></i> Edit Battalion Info</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_commandant') }}"><i class="fas fa-user-tie"></i> Manage Commandant</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_organization') }}"><i class="fas fa-sitemap"></i> Organization Structure</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_history') }}"><i class="fas fa-history"></i> Battalion History</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_events') }}" class="active"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_announcements') }}"><i class="fas fa-bullhorn"></i> Manage Announcements</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_gallery') }}"><i class="fas fa-images"></i> Manage Gallery</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_change_password') }}"><i class="fas fa-key"></i> Change Password</a></li>
+                <li><a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content-admin" id="mainContent">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-calendar-alt"></i> Manage Events</h1>
+                <a href="{{ url_for('main.logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+
+            <!-- Add New Event -->
+            <div class="content-section">
+                <h2><i class="fas fa-plus-circle"></i> Add New Event</h2>
+                <form id="event-form">
+                    <input type="text" id="event-title" class="form-control" placeholder="Event Title" required>
+                    <input type="text" id="event-date" class="form-control" placeholder="Event Date (e.g., January 25, 2026)" required>
+                    <input type="text" id="event-location" class="form-control" placeholder="Event Location (Optional)">
+                    <textarea id="event-description" class="form-control" placeholder="Event Description" required></textarea>
+                    
+                    <button type="button" class="btn-success" onclick="addEvent()">
+                        <i class="fas fa-save"></i> Add Event
+                    </button>
+                    <div id="event-message" class="success-message"></div>
+                    <div id="event-error" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Existing Events -->
+            <div class="content-section">
+                <h2><i class="fas fa-list"></i> Existing Events</h2>
+                <div id="events-list">
+                    {% if events %}
+                        {% for event in events %}
+                        <div class="event-item" id="event-{{ event.id }}">
+                            <h3>{{ event.title }}</h3>
+                            <div class="event-meta">
+                                <i class="fas fa-calendar"></i> {{ event.date }}
+                                {% if event.location %}
+                                | <i class="fas fa-map-marker-alt"></i> {{ event.location }}
+                                {% endif %}
+                            </div>
+                            <p>{{ event.description }}</p>
+                            <button class="btn-danger" onclick="deleteEvent('{{ event.id }}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color: #666; text-align: center; padding: 40px;">No events added yet. Create your first event above!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // @ts-nocheck - Jinja2 template syntax
+        /* eslint-disable */
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('mainContent').classList.toggle('full-width');
+        }
+
+        function addEvent() {
+            var data = {
+                title: document.getElementById('event-title').value,
+                date: document.getElementById('event-date').value,
+                location: document.getElementById('event-location').value,
+                description: document.getElementById('event-description').value,
+                battalion_id: Number('{{ battalion.id }}')
+            };
+
+            if (!data.title || !data.date || !data.description) {
+                showMessage('event-error', 'Please fill in all required fields');
+                return;
+            }
+
+            fetch('/api/battalion/events/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showMessage('event-message', result.message);
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showMessage('event-error', result.message);
+                }
+            })
+            .catch(error => {
+                showMessage('event-error', 'Failed to add event');
+            });
+        }
+
+        function deleteEvent(eventId) {
+            if (!confirm('Are you sure you want to delete this event?')) return;
+
+            fetch('/api/battalion/events/delete', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({event_id: eventId})
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    document.getElementById('event-' + eventId).remove();
+                    alert(result.message);
+                } else {
+                    alert('Failed to delete event');
+                }
+            })
+            .catch(error => {
+                alert('Failed to delete event');
+            });
+        }
+
+        function showMessage(elementId, message) {
+            var messageDiv = document.getElementById(elementId);
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            setTimeout(() => messageDiv.style.display = 'none', 3000);
+        }
+    </script>
+</body>
+</html>

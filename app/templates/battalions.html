@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battalions - APSP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/battalions.css') }}?v=17">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            border-radius: 50%;
+            padding: 0px;
+            object-position: center;
+            background-color: transparent;
+        }
+
+        /* Enhanced Commandant Photo - Square with Better Quality */
+        /* Enhanced Commandant Photo - Portrait with Better Visibility */
+        .commandant-img {
+            width: 110px !important;
+            height: 135px !important;
+            /* Changed to portrait aspect ratio */
+            border-radius: 8px !important;
+            object-fit: cover;
+            object-position: top center;
+            /* Focus on face/cap */
+            border: 4px solid var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0, 61, 130, 0.25) !important;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            background: white;
+        }
+
+        /* Responsive media queries for better visibility */
+        @media (max-width: 768px) {
+            .commandant-img {
+                width: 95px !important;
+                height: 95px !important;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .commandant-img {
+                width: 120px !important;
+                height: 150px !important;
+                /* Portrait scaled */
+            }
+        }
+
+        /* District with Location Icon */
+        .district-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .location-link {
+            color: #dc3545;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .location-link:hover {
+            color: #bd2130;
+            transform: scale(1.2);
+        }
+
+        .location-link i {
+            filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+
+    <section class="battalions-section">
+        <div class="container">
+            <div class="battalions-grid">
+                <!-- Dynamic data from database -->
+                {% for battalion in battalions %}
+                <div class="battalion-card">
+                    <h3>{{ battalion.name }}</h3>
+                    <div class="battalion-info">
+                        <div class="district-location">
+                            <p style="margin: 0;"><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> {{
+                                battalion.district }}</p>
+                            <a href="https://www.google.com/maps/search/{{ battalion.name }}+Headquarters+{{ battalion.district }}+Andhra+Pradesh"
+                                target="_blank" class="location-link"
+                                title="View {{ battalion.name }} Headquarters on Google Maps">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </a>
+                        </div>
+                        <div class="commandant-details">
+                            <img src="{{ url_for('static', filename='images/commandants/' + battalion.commandant_image) }}"
+                                alt="{{ battalion.commandant_name }}" class="commandant-img"
+                                onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/commandants/default_commandant.svg') }}';">
+                            <div class="commandant-text">
+                                <p class="commandant-name">{{ battalion.commandant_name }}</p>
+                                <p class="commandant-designation">Commandant of {{ battalion.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('main.battalion_detail', battalion_id=battalion.battalion_number) }}"
+                        class="btn-details">View Details →</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

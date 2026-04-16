@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003d82;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#003d82cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#grad1)"/>
+  <text x="150" y="130" font-family="Arial, sans-serif" font-size="80" font-weight="bold" 
+        fill="white" text-anchor="middle">AKS</text>
+  <text x="150" y="200" font-family="Arial, sans-serif" font-size="20" font-weight="600" 
+        fill="rgba(255,255,255,0.9)" text-anchor="middle">1th Bn</text>
+</svg>

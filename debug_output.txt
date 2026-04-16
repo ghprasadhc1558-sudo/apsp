@@ -1,0 +1,28 @@
+--- USERS ---
+User: admin, ID: 1, IsAdmin: True, IsBnAdmin: False, BnID: None
+User: battalion1_admin, ID: 2, IsAdmin: False, IsBnAdmin: True, BnID: 1
+User: battalion2_admin, ID: 3, IsAdmin: False, IsBnAdmin: True, BnID: 2
+User: battalion3_admin, ID: 4, IsAdmin: False, IsBnAdmin: True, BnID: 3
+User: battalion4_admin, ID: 5, IsAdmin: False, IsBnAdmin: True, BnID: 4
+User: battalion5_admin, ID: 6, IsAdmin: False, IsBnAdmin: True, BnID: 5
+User: battalion6_admin, ID: 7, IsAdmin: False, IsBnAdmin: True, BnID: 6
+User: battalion7_admin, ID: 8, IsAdmin: False, IsBnAdmin: True, BnID: 7
+User: battalion8_admin, ID: 9, IsAdmin: False, IsBnAdmin: True, BnID: 8
+User: battalion9_admin, ID: 10, IsAdmin: False, IsBnAdmin: True, BnID: 9
+User: battalion11_admin, ID: 11, IsAdmin: False, IsBnAdmin: True, BnID: 10
+User: battalion14_admin, ID: 12, IsAdmin: False, IsBnAdmin: True, BnID: 11
+User: battalion16_admin, ID: 13, IsAdmin: False, IsBnAdmin: True, BnID: 12
+
+--- BATTALIONS ---
+Bn Name: 1st Battalion, DB_ID: 1, Bn_Number: 1
+Bn Name: 2nd Battalion, DB_ID: 2, Bn_Number: 2
+Bn Name: 3rd Battalion, DB_ID: 3, Bn_Number: 3
+Bn Name: 4th Battalion, DB_ID: 4, Bn_Number: 4
+Bn Name: 5th Battalion, DB_ID: 5, Bn_Number: 5
+Bn Name: 6th Battalion, DB_ID: 6, Bn_Number: 6
+Bn Name: 7th Battalion, DB_ID: 7, Bn_Number: 7
+Bn Name: 8th Battalion, DB_ID: 8, Bn_Number: 8
+Bn Name: 9th Battalion, DB_ID: 9, Bn_Number: 9
+Bn Name: 11th Battalion, DB_ID: 10, Bn_Number: 11
+Bn Name: 14th Battalion, DB_ID: 11, Bn_Number: 14
+Bn Name: 16th Battalion, DB_ID: 12, Bn_Number: 16

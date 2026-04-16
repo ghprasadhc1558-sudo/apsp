@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battalions - APSP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/battalions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-left">
+                    <span>Andhra Pradesh Government</span>
+                </div>
+                <div class="top-right">
+                    <a href="#" onclick="adjustFontSize('decrease')"><i class="fas fa-minus"></i> A</a>
+                    <a href="#" onclick="adjustFontSize('normal')">A</a>
+                    <a href="#" onclick="adjustFontSize('increase')"><i class="fas fa-plus"></i> A</a>
+                    <a href="admin-login.html" class="admin-link"><i class="fas fa-user-shield"></i> Admin Login</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="logo-section">
+                    <img src="images/logo.png" alt="APSP Logo" class="logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23003d82%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                    <div class="logo-text">
+                        <h1>ANDHRA PRADESH SPECIAL POLICE</h1>
+                        <p>Serving with Pride, Protecting with Courage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-info-circle"></i> About Us <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Overview</a></li>
+                            <li><a href="history.html">History</a></li>
+                            <li><a href="organization.html">Organization Structure</a></li>
+                            <li><a href="officers.html">Officers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="active"><i class="fas fa-shield-alt"></i> Battalions <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="battalions.html">All Battalions</a></li>
+                            <li><a href="battalion.html?id=1">1st Battalion</a></li>
+                            <li><a href="battalion.html?id=2">2nd Battalion</a></li>
+                            <li><a href="battalion.html?id=3">3rd Battalion</a></li>
+                            <li><a href="battalion.html?id=4">4th Battalion</a></li>
+                            <li><a href="battalion.html?id=5">5th Battalion</a></li>
+                            <li><a href="battalion.html?id=6">6th Battalion</a></li>
+                            <li><a href="battalion.html?id=7">7th Battalion</a></li>
+                            <li><a href="battalion.html?id=8">8th Battalion</a></li>
+                            <li><a href="battalion.html?id=9">9th Battalion</a></li>
+                            <li><a href="battalion.html?id=11">11th Battalion</a></li>
+                            <li><a href="battalion.html?id=14">14th Battalion</a></li>
+                            <li><a href="battalion.html?id=16">16th Battalion</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-users"></i> APSDRF <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sdrf.html">About SDRF</a></li>
+                            <li><a href="sdrf-operations.html">Operations</a></li>
+                            <li><a href="sdrf-training.html">Training</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-newspaper"></i> News & Events <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="news.html">Latest News</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="announcements.html">Announcements</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contacts.html"><i class="fas fa-phone"></i> Contact Us</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-shield-alt"></i> APSP Battalions</h1>
+            <p>Elite forces dedicated to maintaining peace and security</p>
+        </div>
+    </section>
+
+    <!-- Battalions Grid -->
+    <section class="battalions-section">
+        <div class="container">
+            <div class="intro-text">
+                <p>The Andhra Pradesh Special Police comprises multiple battalions strategically positioned across the state. Each battalion is equipped with modern weaponry and trained in specialized operations including crowd control, anti-terrorism, disaster management, and VIP security.</p>
+            </div>
+
+            <div class="battalions-grid">
+                <!-- Battalion 1 -->
+                <div class="battalion-card">
+                    <h3>1st Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Vijayawada</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri A.K. Sharma</p>
+                    </div>
+                    <a href="battalion.html?id=1" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 2 -->
+                <div class="battalion-card">
+                    <h3>2nd Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Kurnool</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Smt M.DEEPIKA</p>
+                    </div>
+                    <a href="battalion.html?id=2" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 3 -->
+                <div class="battalion-card">
+                    <h3>3rd Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Kakinada</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>I/C Commandant:</strong> Sri M.Nagendra Rao</p>
+                    </div>
+                    <a href="battalion.html?id=3" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 4 -->
+                <div class="battalion-card">
+                    <h3>4th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Guntur</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri M.P. Singh</p>
+                    </div>
+                    <a href="battalion.html?id=4" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 5 -->
+                <div class="battalion-card">
+                    <h3>5th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Vizianagaram</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Smt. Malika Garg, IPS</p>
+                    </div>
+                    <a href="battalion.html?id=5" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 6 -->
+                <div class="battalion-card">
+                    <h3>6th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Mangalagiri</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> K.Nagesh Babu</p>
+                    </div>
+                    <a href="battalion.html?id=6" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 7 -->
+                <div class="battalion-card">
+                    <h3>7th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Anantapur</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri K.N. Prasad</p>
+                    </div>
+                    <a href="battalion.html?id=7" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 8 -->
+                <div class="battalion-card">
+                    <h3>8th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Kurnool</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri B.S. Chauhan</p>
+                    </div>
+                    <a href="battalion.html?id=8" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 9 -->
+                <div class="battalion-card">
+                    <h3>9th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Eluru</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri P.V. Rao</p>
+                    </div>
+                    <a href="battalion.html?id=9" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 11 -->
+                <div class="battalion-card">
+                    <h3>11th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Tirupati</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri V.K. Singh</p>
+                    </div>
+                    <a href="battalion.html?id=11" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 14 -->
+                <div class="battalion-card">
+                    <h3>14th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Kakinada</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri N.S. Murthy</p>
+                    </div>
+                    <a href="battalion.html?id=14" class="btn-details">View Details →</a>
+                </div>
+
+                <!-- Battalion 16 -->
+                <div class="battalion-card">
+                    <h3>16th Battalion</h3>
+                    <div class="battalion-info">
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> Srikakulam</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Commandant:</strong> Shri M.K. Reddy</p>
+                    </div>
+                    <a href="battalion.html?id=16" class="btn-details">View Details →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="website-policy.html">Website Policies</a>
+                    <a href="contacts.html">Contact Us</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="sitemap.html">Sitemap</a>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2026 Andhra Pradesh Special Police</p>
+                    <p>IT Solution powered by National Informatics Centre (NIC), Andhra Pradesh</p>
+                    <p>Content Provided by and Maintained by AP Special Police</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

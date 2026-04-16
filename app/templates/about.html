@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Andhra Pradesh Special Police</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Logo Styling */
+        .logo {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            border-radius: 50%;
+            padding: 0px;
+            object-position: center;
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+
+    <style>
+        .about-container {
+            max-width: 1750px !important;
+            width: 95% !important;
+            margin: 0 auto;
+            min-height: calc(100vh - 500px);
+        }
+
+        .about-header {
+            background: linear-gradient(135deg, #003d82, #0056b3);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .about-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .about-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: #003d82;
+            background: #f5f5f5;
+        }
+
+        .tab-btn.active {
+            color: #003d82;
+            border-bottom-color: #003d82;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: #003d82;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff6600;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #0056b3;
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .content-section ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content-section ul li {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .org-structure {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .org-level {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #003d82;
+        }
+
+        .org-level h4 {
+            color: #003d82;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .org-level p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .officers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .officer-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .officer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .officer-photo {
+            width: 230px;
+            height: 280px;
+            /* Increased height for rectangular portrait */
+            border-radius: 15px;
+            /* Rounded corners */
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #003d82, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 56px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            object-position: top center;
+            border: 4px solid #003d82;
+            /* Blue border */
+        }
+
+        .officer-card h3 {
+            color: #003d82;
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .officer-designation {
+            color: #f59e0b;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .officer-details {
+            text-align: center;
+            font-size: 15px;
+            color: #666;
+        }
+
+        .officer-details p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .officer-details i {
+            color: #003d82;
+            width: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 24px;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .officers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+
+    <div class="about-container">
+        <div class="about-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('history')">History</button>
+            <button class="tab-btn" onclick="showTab('structure')">Organisational Structure</button>
+            <button class="tab-btn" onclick="showTab('officers')">Officers</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="content-section">
+                <h2>Overview</h2>
+                <p>The Andhra Pradesh Special Police (APSP) is a specialized law enforcement force dedicated to
+                    maintaining internal security, disaster management, and public order in the state of Andhra Pradesh.
+                    Our force comprises highly trained personnel committed to serving the people with dedication and
+                    professionalism.</p>
+
+                <p>Established to handle special security situations, the APSP has evolved into a premier force with
+                    multiple battalions stationed across the state. We work in close coordination with state and central
+                    agencies to ensure the safety and security of our citizens.</p>
+
+                <h3>Our Mission</h3>
+                <p>To provide specialized law enforcement services with professionalism, integrity, and dedication while
+                    maintaining the highest standards of public safety and security in Andhra Pradesh.</p>
+
+                <h3>Our Vision</h3>
+                <p>To be a world-class specialized police force recognized for excellence in maintaining internal
+                    security, disaster response, and public order management.</p>
+
+                <h3>Role of APSP</h3>
+                <p>The Andhra Pradesh Special Police is a quasi-military force within the framework of the AP Police.
+                    Its main role is to assist the local police in maintaining Law and Order.</p>
+                <p>It may be used to prevent organized crimes, to curb the activities of subversive elements, or as a
+                    deterrent against possible outbreak of mob fury or fanaticism. It may also be assigned any other
+                    duties by the state government such as guarding of vulnerable points, anti-smuggling duties and
+                    rescue and relief during serious natural calamities. It may also be called upon to maintain law and
+                    order within the country in close co-operation with the other state police wings or the Armed
+                    Forces.</p>
+                <p>In the discharge of the above said duties, companies or platoons of APSP may be deployed by the
+                    Director General of Police in any part of the State. While on such duties, these will be at the
+                    disposal and operational control of the Superintendent of Police of the district concerned, but
+                    their administration and discipline and the actual tactical handling of the men will continue to be
+                    under APSP officers.</p>
+
+                <h3>Key Responsibilities</h3>
+                <ul>
+                    <li>Maintenance of internal security and public order</li>
+                    <li>Disaster management and emergency response</li>
+                    <li>Counter-insurgency and anti-naxal operations</li>
+                    <li>VIP security and protection duties</li>
+                    <li>Support to civil administration during emergencies</li>
+                    <li>Crowd management during major events and festivals</li>
+                    <li>Special operations and tactical interventions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content">
+            <div class="content-section">
+                <h2 style="color: #2c3e50; margin-bottom: 30px; font-size: 24px;">Andhra Pradesh Special Police (APSP) -
+                    History</h2>
+
+                <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+                    Andhra Pradesh Special Police is the oldest special police force of the state that has been
+                    operational since 1947.
+                    Initially, two armed police battalions were raised in the composite state of Madras at Bellary and
+                    Tadepalligudem in
+                    West Godavari districts in the year 1947. Later in the year 1950, the Government of Hyderabad state
+                    raised another
+                    Battalion at Ibrahimnagh in the state army lines which was named Hyderabad State Reserve Police
+                    (HSRP). When Andhra
+                    Pradesh state was formed, the Government changed the name of HSRP as 1st Bn. APSP vide
+                    G.O.Ms.No.1818, Home (Police. B)
+                    Department. The same has come into existence with effect from 01.12.1957 and started functioning
+                    from DGP Complex
+                    situated at Lakadikapol, Hyderabad under the supervision of the Director General and Inspector
+                    General of Police.
+                    After construction of Shourya Bhavanam exclusively at Jublee Hills, Road No.12, the APSP Head Office
+                    was shifted there.
+                    Later, after bifurcation of Andhra Pradesh state, APSP Head Office was again shifted to the premises
+                    of 6th Bn APSP.
+                    Mangalagiri, Guntur district on June, 2017 and since then, it is functioning from there. '8' APSP
+                    Bns are presently
+                    functioning in the state of Andhra Pradesh after bifurcation.
+                </p>
+
+                <h3 style="color: #c0392b; margin-top: 30px; margin-bottom: 15px; font-size: 18px;">ROLE OF ANDHRA
+                    PRADESH SPECIAL POLICE:</h3>
+
+                <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+                    The Andhra Pradesh Special Police is a quasi-military force within the frame work of the AP Police.
+                    Its main role is
+                    to assist the local police in maintaining Law and Order.
+                </p>
+
+                <div style="border: 1px solid #ddd; padding: 20px; margin: 20px 0; background: #f9f9f9;">
+                    <p style="text-align: justify; line-height: 1.8; margin: 0;">
+                        It may be used to prevent organized crimes, to curb the activities of subversive elements, or as
+                        a deterrent
+                        against possible outbreak of mob fury or fanaticism. It may also be assigned any other duties by
+                        the state
+                        government such as guarding of vulnerable points, anti-smuggling duties and rescue and relief
+                        during serious
+                        natural calamities. It may also be called upon to maintain law and order within the country in
+                        close Co-operation
+                        with the other state police wings or the Armed Forces. In the discharge of the above said
+                        duties, companies or
+                        platoons of APSP may be deployed by the Director General of Police in any part of the State.
+                        While on such duties,
+                        these will be at the disposal and operational control of the Superintendent of Police of the
+                        district concerned,
+                        but their administration and discipline and the actual tactical handling of the men will
+                        continue to be under APSP
+                        officers.
+                    </p>
+                </div>
+
+                <div style="background: #3d3d3d; color: white; padding: 15px; margin: 30px 0;">
+                    <h3 style="margin: 0; font-size: 18px; color: white;">Organization of the Force:</h3>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 16px;">• Addl DGP/IGP (APSP):</h4>
+                    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+                        The Addl DGP/IGP APSP is the head of the Armed Police in the state. DIGs of APSP Bns assist him
+                        in performing
+                        his duties. His role is to supreme the functioning of all APSP Bns. In the state he has to
+                        establish and maintain
+                        efficiency and discipline,ensure uniformity of procedure and practice and secure co-operation
+                        among the commandants
+                        of several Bns. as well as harmonious working. He should pay particular attention to the
+                        training and discipline in
+                        the Bns, so that as high standard of efficiency as possible is reached and maintained. It shall
+                        also be his duty to
+                        instruct the officers under him with regard to man-management and properties in their official
+                        and non-official
+                        dealings and conduct. He shall ensure that the DIGPs under him inspect all the units under them
+                        at least once a year.
+                    </p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 16px;">DIGP APSP</h4>
+                    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+                        The APSP Battalions are grouped into two Ranges, each Range being under the charge of a Deputy
+                        Inspector General
+                        of Police, APSP Battalions. The Deputy Inspector General of Police assists ADGP/IGP of APSP
+                        Battalions in running
+                        the administration. He exercises administrative control over the Battalions under the general
+                        supervision and control
+                        of the Director General of Police, who is the head of the Police department. For operational
+                        duties, the Battalions
+                        are under the direct control of the Director General of Police.
+                    </p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 16px;">Commandant of APSP Battalion</h4>
+                    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+                        Each Battalion will be under the Command of an officer who will be of the rank of Supdt. of
+                        Police and he is
+                        designated as Commandant.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structure Tab -->
+        <div id="structure" class="tab-content">
+            <div class="content-section" style="padding: 15px;">
+                <h2 style="margin-left: 15px;">Organisational Structure</h2>
+
+                <!-- PDF Viewer for Organizational Structure -->
+                <div class="pdf-container"
+                    style="background: white; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; margin-top: 10px; width: 100%;">
+                    <iframe
+                        src="{{ url_for('static', filename='apsp organisation structure/APSP Structure new 12.05.2025.pdf') }}#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
+                        style="width: 100%; height: 1200px; border: none; display: block;" title="APSP Organizational Structure PDF">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Officers Tab -->
+        <div id="officers" class="tab-content">
+            <div class="content-section">
+                <h2>Key Officers</h2>
+
+                <div class="officers-grid">
+                    {% if officers %}
+                    {% for officer in officers %}
+                    <div class="officer-card">
+                        {% if officer.image_file and officer.image_file != 'default.jpg' %}
+                        <img src="{{ url_for('static', filename='images/officers/' + officer.image_file) }}"
+                            alt="{{ officer.name }}" class="officer-photo" {% if 'Fakkeerappa' in officer.name
+                            %}style="object-position: center 25%;" {% endif %}>
+                        {% else %}
+                        <div class="officer-photo">{{ officer.designation[:3]|upper }}</div>
+                        {% endif %}
+                        <h3>{{ officer.name }}</h3>
+                        <p class="officer-designation">{{ officer.designation }}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="no-officers" style="grid-column: 1/-1; text-align: center; padding: 20px; color: #666;">
+                        <p>No officers found. Please add officers from the Admin Panel.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+<!-- Battalion Admin Edit Form Templates - Placeholder that will be created when accessed -->
+<!-- The actual forms will be generated dynamically based on the battalion data -->
+<!-- For now, creating simple placeholder files that will work with the routes -->
+
+<!-- This is a note file - actual templates need to be created -->
+TEMPLATES TO CREATE:
+1. battalion-admin-edit.html - Edit basic battalion info
+2. battalion-admin-commandant.html - Manage commandant details
+3. battalion-admin-organization.html - Update org structure
+4. battalion-admin-history.html - Update battalion history
+
+These will follow the same sidebar structure as battalion-admin-dashboard.html
+with forms for editing the respective sections.

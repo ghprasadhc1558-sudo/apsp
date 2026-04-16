@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Latest News - Andhra Pradesh Special Police</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}?v=17">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		.logo {
+			width: 80px !important;
+			height: 80px !important;
+			object-fit: cover;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: crisp-edges;
+			border-radius: 50%;
+			padding: 0px;
+			object-position: center;
+			background-color: transparent;
+		}
+
+		.news-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 30px 20px;
+			min-height: calc(100vh - 500px);
+		}
+
+		.page-header {
+			background: linear-gradient(135deg, #003d82, #0056b3);
+			color: white;
+			padding: 40px 30px;
+			border-radius: 10px;
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
+		.page-header h1 {
+			font-size: 36px;
+			margin-bottom: 10px;
+			font-weight: 700;
+		}
+
+		.page-header p {
+			font-size: 18px;
+			opacity: 0.95;
+		}
+
+		.news-grid {
+			display: grid;
+			gap: 30px;
+		}
+
+		.news-article {
+			background: white;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+			transition: transform 0.3s, box-shadow 0.3s;
+			display: grid;
+			grid-template-columns: 350px 1fr;
+			gap: 0;
+		}
+
+		.news-article:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+		}
+
+		.news-image {
+			width: 100%;
+			height: 100%;
+			min-height: 250px;
+			object-fit: cover;
+		}
+
+		.news-content {
+			padding: 30px;
+		}
+
+		.news-meta {
+			display: flex;
+			gap: 20px;
+			margin-bottom: 15px;
+			font-size: 14px;
+			color: #666;
+		}
+
+		.news-meta span {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.news-meta i {
+			color: #003d82;
+		}
+
+		.news-category {
+			display: inline-block;
+			padding: 5px 12px;
+			background: #ff6600;
+			color: white;
+			border-radius: 20px;
+			font-size: 12px;
+			font-weight: 600;
+			margin-bottom: 15px;
+		}
+
+		.news-article h2 {
+			color: #003d82;
+			font-size: 26px;
+			margin-bottom: 15px;
+			line-height: 1.3;
+		}
+
+		.news-article p {
+			color: #444;
+			line-height: 1.8;
+			margin-bottom: 20px;
+		}
+
+		.read-more {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			color: #003d82;
+			text-decoration: none;
+			font-weight: 600;
+			transition: gap 0.3s;
+		}
+
+		.read-more:hover {
+			gap: 12px;
+		}
+
+		.featured-news {
+			border: 3px solid #ff6600;
+		}
+
+		@media (max-width: 968px) {
+			.news-article {
+				grid-template-columns: 1fr;
+			}
+
+			.news-image {
+				min-height: 220px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	{% include 'includes/header.html' %}
+
+	<div class="news-container">
+
+		<div class="news-grid">
+			<!-- Featured News Article -->
+			<article class="news-article featured-news">
+				<img src="{{ url_for('static', filename='images/news/dg-visit.jpg') }}" alt="DG Visit"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23003d82%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22200%22 cy=%22120%22 r=%2250%22 fill=%22%23ff6600%22/%3E%3Cpath fill=%22white%22 d=%22M200,90 L200,150 M170,120 L230,120%22 stroke=%22white%22 stroke-width=%228%22/%3E%3Crect fill=%22%23ff6600%22 x=%22100%22 y=%22200%22 width=%22200%22 height=%2260%22 rx=%225%22/%3E%3Ctext x=%2250%25%22 y=%2290%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-weight=%22bold%22%3EDIRECTOR GENERAL VISIT%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Featured</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> January 5, 2026</span>
+						<span><i class="fas fa-user"></i> APSP Media Cell</span>
+					</div>
+					<h2>Director General Inspects 5th Battalion Training Facility</h2>
+					<p>The Director General of APSP conducted a comprehensive inspection of the newly modernized
+						training facility at 5th Battalion headquarters in Guntur. The inspection focused on the
+						state-of-the-art equipment, training modules, and infrastructure development. The DG commended
+						the battalion for maintaining high standards and directed further improvements in specialized
+						training programs.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+
+			<!-- News Article 2 -->
+			<article class="news-article">
+				<img src="{{ url_for('static', filename='images/news/awards-ceremony.jpg') }}" alt="Awards Ceremony"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23006644%22 width=%22400%22 height=%22300%22/%3E%3Cpath fill=%22%23ffd700%22 d=%22M200,60 L220,120 L280,120 L230,160 L250,220 L200,180 L150,220 L170,160 L120,120 L180,120 Z%22/%3E%3Ctext x=%2250%25%22 y=%2290%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22%3EAWARDS CEREMONY%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Awards</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> January 3, 2026</span>
+						<span><i class="fas fa-user"></i> APSP HQ</span>
+					</div>
+					<h2>APSP Personnel Receive Gallantry Awards for Cyclone Rescue Operations</h2>
+					<p>Twenty-five APSP personnel from various battalions were honored with gallantry medals for their
+						exceptional courage during Cyclone Michaung rescue operations. The award ceremony was held at
+						the APSP Headquarters in Mangalagiri, where the Chief Minister of Andhra Pradesh presented the
+						awards and praised the force for their dedication to public service.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+
+			<!-- News Article 3 -->
+			<article class="news-article">
+				<img src="{{ url_for('static', filename='images/news/new-equipment.jpg') }}" alt="New Equipment"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23ff6600%22 x=%22100%22 y=%2280%22 width=%22200%22 height=%22140%22 rx=%2210%22/%3E%3Ccircle cx=%22150%22 cy=%22150%22 r=%2225%22 fill=%22%23333%22/%3E%3Ccircle cx=%22250%22 cy=%22150%22 r=%2225%22 fill=%22%23333%22/%3E%3Crect fill=%22%23003d82%22 x=%22180%22 y=%22100%22 width=%2240%22 height=%2230%22/%3E%3Ctext x=%2250%25%22 y=%2290%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ENEW VEHICLES%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Modernization</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> December 28, 2025</span>
+						<span><i class="fas fa-user"></i> Equipment Division</span>
+					</div>
+					<h2>APSP Receives 50 New Specialized Vehicles for Enhanced Mobility</h2>
+					<p>In a significant boost to operational capabilities, APSP has inducted 50 new specialized vehicles
+						including armored personnel carriers, rapid response vehicles, and mobile command centers. The
+						vehicles are equipped with advanced communication systems and will be distributed across all
+						battalions to enhance response time and operational efficiency.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+
+			<!-- News Article 4 -->
+			<article class="news-article">
+				<img src="{{ url_for('static', filename='images/news/joint-exercise.jpg') }}" alt="Joint Exercise"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23003d82%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22150%22 cy=%22120%22 r=%2240%22 fill=%22%23ff6600%22/%3E%3Ccircle cx=%22250%22 cy=%22120%22 r=%2240%22 fill=%22%23cc0000%22/%3E%3Cpath fill=%22white%22 d=%22M150,100 L150,140 M130,120 L170,120%22 stroke=%22white%22 stroke-width=%226%22/%3E%3Cpath fill=%22white%22 d=%22M250,100 L250,140 M230,120 L270,120%22 stroke=%22white%22 stroke-width=%226%22/%3E%3Ctext x=%2250%25%22 y=%2285%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3EJOINT EXERCISE%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Training</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> December 22, 2025</span>
+						<span><i class="fas fa-user"></i> Training Wing</span>
+					</div>
+					<h2>APSP Conducts Joint Counter-Terrorism Exercise with CRPF</h2>
+					<p>A week-long joint counter-terrorism exercise was conducted with the Central Reserve Police Force
+						(CRPF) at the 9th Battalion training grounds. The exercise focused on urban warfare tactics,
+						hostage rescue operations, and coordination between state and central forces. Over 300 personnel
+						from both forces participated in the intensive training program.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+
+			<!-- News Article 5 -->
+			<article class="news-article">
+				<img src="{{ url_for('static', filename='images/news/sports-meet.jpg') }}" alt="Sports Meet"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23006644%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22200%22 cy=%22120%22 r=%2250%22 fill=%22white%22/%3E%3Cpath fill=%22%23006644%22 d=%22M200,80 L220,110 L200,100 L180,110 Z%22/%3E%3Crect fill=%22%23ffd700%22 x=%22180%22 y=%22180%22 width=%2240%22 height=%2280%22/%3E%3Crect fill=%22%23c0c0c0%22 x=%22120%22 y=%22200%22 width=%2240%22 height=%2260%22/%3E%3Crect fill=%22%23cd7f32%22 x=%22240%22 y=%22210%22 width=%2240%22 height=%2250%22/%3E%3Ctext x=%2250%25%22 y=%2295%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ESPORTS MEET 2025%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Sports</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> December 15, 2025</span>
+						<span><i class="fas fa-user"></i> Sports Department</span>
+					</div>
+					<h2>Annual APSP Sports Meet Concludes with Record Participation</h2>
+					<p>The Annual APSP Sports Meet 2025 concluded successfully with participation from all 16
+						battalions. The three-day event featured competitions in athletics, shooting, swimming, martial
+						arts, and team sports. The 2nd Battalion emerged as overall champions, followed by the 5th and
+						11th Battalions. The event emphasized physical fitness and team building among personnel.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+
+			<!-- News Article 6 -->
+			<article class="news-article">
+				<img src="{{ url_for('static', filename='images/news/technology-upgrade.jpg') }}" alt="Technology"
+					class="news-image"
+					onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23003d82%22 x=%22100%22 y=%2270%22 width=%22200%22 height=%22140%22 rx=%2210%22/%3E%3Crect fill=%22%234a9eff%22 x=%22120%22 y=%2290%22 width=%22160%22 height=%2290%22/%3E%3Ccircle cx=%22200%22 cy=%22210%22 r=%2215%22 fill=%22%23666%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3E01010%3C/text%3E%3Ctext x=%2250%25%22 y=%2295%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22%3ETECH UPGRADE%3C/text%3E%3C/svg%3E'">
+				<div class="news-content">
+					<span class="news-category">Technology</span>
+					<div class="news-meta">
+						<span><i class="fas fa-calendar"></i> December 10, 2025</span>
+						<span><i class="fas fa-user"></i> IT Department</span>
+					</div>
+					<h2>APSP Launches New Digital Command and Control System</h2>
+					<p>A state-of-the-art digital command and control system has been launched to enhance real-time
+						communication and coordination across all APSP units. The system integrates GPS tracking, video
+						surveillance, and automated reporting features, enabling better situational awareness and faster
+						response times. All battalions will be fully integrated with the system by March 2026.</p>
+					<a href="#" class="read-more">Read Full Article <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</article>
+		</div>
+	</div>
+
+    {% include 'includes/footer.html' %}
+
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

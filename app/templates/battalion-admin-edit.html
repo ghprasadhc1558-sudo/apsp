@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Edit Battalion Info - APSP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .menu-toggle { position: fixed; top: 15px; left: 15px; z-index: 1001; background: #003d82; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #1e293b; color: white; position: fixed; height: 100vh; overflow-y: auto; transition: transform 0.3s; z-index: 1000; }
+        .sidebar.hidden { transform: translateX(-100%); }
+        .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; }
+        .sidebar-header h2 { color: white; font-size: 20px; margin-bottom: 5px; }
+        .sidebar-header p { color: #94a3b8; font-size: 14px; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { margin: 5px 0; }
+        .sidebar-menu a { display: flex; align-items: center; padding: 12px 20px; color: #cbd5e1; text-decoration: none; transition: all 0.3s; }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(59,130,246,0.1); color: white; border-left: 3px solid #3b82f6; }
+        .sidebar-menu i { margin-right: 12px; width: 20px; }
+        .main-content-admin { flex: 1; margin-left: 260px; padding: 20px; transition: margin-left 0.3s; }
+        .main-content-admin.full-width { margin-left: 0; }
+        .dashboard-header { background: #ffcccc; padding: 20px 30px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .dashboard-header h1 { color: #1e293b; font-size: 28px; }
+        .logout-btn { background: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logout-btn:hover { background: #b91c1c; }
+        .content-section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .content-section h2 { color: #1e293b; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .content-section h3 { color: #475569; font-size: 18px; margin: 20px 0 15px; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .form-control { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 15px; }
+        .form-control:focus { outline: none; border-color: #3b82f6; }
+        textarea.form-control { min-height: 120px; resize: vertical; font-family: Arial, sans-serif; }
+        #org-structure { min-height: 400px; font-family: 'Courier New', Consolas, monospace; font-size: 13px; line-height: 1.6; border: 2px solid #3b82f6; }
+        .json-guide { background: #eff6ff; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #3b82f6; }
+        .json-guide p { margin: 0; color: #1e40af; font-size: 13px; line-height: 1.6; }
+        .json-buttons { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-json { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-format { background: #2196F3; color: white; }
+        .btn-validate { background: #ff9800; color: white; }
+        .btn-format:hover { background: #1976D2; }
+        .btn-validate:hover { background: #f57c00; }
+        .btn-primary { background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; margin-top: 10px; }
+        .btn-primary:hover { background: #2563eb; }
+        .success-message { color: #16a34a; margin-top: 15px; display: none; padding: 10px; background: #dcfce7; border-radius: 6px; border: 1px solid #86efac; }
+        .error-message { color: #dc2626; margin-top: 15px; display: none; padding: 10px; background: #fee2e2; border-radius: 6px; border: 1px solid #fca5a5; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .main-content-admin { margin-left: 0; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="APSP Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ffffff%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23003d82%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                <h2>Battalion Admin</h2>
+                <p>battalion{{ battalion.battalion_number }}_admin</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="{{ url_for('main.battalion_admin_dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_edit') }}" class="active"><i class="fas fa-edit"></i> Edit Battalion Info</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_commandant') }}"><i class="fas fa-user-tie"></i> Manage Commandant</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_organization') }}"><i class="fas fa-sitemap"></i> Organization Structure</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_history') }}"><i class="fas fa-history"></i> Battalion History</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_events') }}"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_announcements') }}"><i class="fas fa-bullhorn"></i> Manage Announcements</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_gallery') }}"><i class="fas fa-images"></i> Manage Gallery</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_change_password') }}"><i class="fas fa-key"></i> Change Password</a></li>
+                <li><a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content-admin" id="mainContent">
+            <div class="dashboard-header">
+                <h1>Content Management System</h1>
+                <a href="{{ url_for('main.logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-shield-alt"></i> Battalions Management</h2>
+                <p><strong>Active Battalions:</strong> 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 14, 16</p>
+                <h3>Edit Battalion Information</h3>
+                <form id="battalion-form">
+                    <div class="form-row">
+                        <select id="battalion-select" class="form-control" disabled style="background:#f0f0f0;">
+                            <option value="{{ battalion.battalion_number }}">{{ battalion.battalion_number }}{{ 'st' if battalion.battalion_number == 1 else 'nd' if battalion.battalion_number == 2 else 'rd' if battalion.battalion_number == 3 else 'th' }} Battalion</option>
+                        </select>
+                        <input type="text" id="battalion-district" class="form-control" placeholder="Battalion District" value="{{ battalion.district or '' }}">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="commandant-name" class="form-control" placeholder="Commandant Name" value="{{ battalion.commandant_name or '' }}">
+                        <input type="text" id="commandant-rank" class="form-control" placeholder="Commandant Rank" value="{{ battalion.commandant_rank or '' }}">
+                    </div>
+                    <div class="form-row">
+                        <textarea id="commandant-speech" class="form-control" placeholder="Commandant Speech / Message">{{ battalion.commandant_speech or '' }}</textarea>
+                    </div>
+                    <h3 style="margin-top:30px;"><i class="fas fa-sitemap"></i> Organizational Structure (JSON Format)</h3>
+                    <div class="json-guide">
+                        <p style="margin-bottom: 5px; font-weight: 600;"><i class="fas fa-info-circle"></i> JSON Format Guide:</p>
+                        <p>• <strong>groups</strong>: Array of {head, group, incharge}<br>
+                        • <strong>additional_commandant</strong>: Name string (optional)<br>
+                        • <strong>assistant_commandants</strong>: Array of {name, rank, companies: [{company, incharge}]}</p>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="org-structure" class="form-control" placeholder='{"additional_commandant": {"name": "Officer Name"}, "assistant_commandants": [...], "groups": [...]}'>{{ battalion.organizational_structure or '' }}</textarea>
+                    </div>
+                    <div class="json-buttons">
+                        <button type="button" class="btn-json btn-format" onclick="formatJSON()">
+                            <i class="fas fa-indent"></i> Format JSON
+                        </button>
+                        <button type="button" class="btn-json btn-validate" onclick="validateJSON()">
+                            <i class="fas fa-check-circle"></i> Validate JSON
+                        </button>
+                    </div>
+                    
+                    <h3 style="margin-top:30px;"><i class="fas fa-user-tie"></i> Commandant Photo Management</h3>
+                    <div style="padding:20px;background:#f8fafc;border-radius:8px;margin-bottom:20px;">
+                        <div style="display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:start;">
+                            <div style="text-align:center;">
+                                <img id="current-commandant-photo" src="{{ url_for('static', filename='images/commandants/' + battalion.commandant_image) if battalion.commandant_image else url_for('static', filename='images/commandants/default_commandant.svg') }}" 
+                                     style="width:240px;height:240px;object-fit:cover;border:5px solid #003d82;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;">
+                                <p style="margin-top:10px;font-size:13px;color:#666;font-weight:600;">Current Photo</p>
+                            </div>
+                            <div>
+                                <div class="form-row">
+                                    <input type="file" id="commandant-photo-upload" class="form-control" accept="image/*" style="padding:10px;">
+                                </div>
+                                <div style="display:flex;gap:10px;margin-top:10px;">
+                                    <button type="button" class="btn-primary" onclick="uploadCommandantPhoto()" style="background:#28a745;">
+                                        <i class="fas fa-upload"></i> Upload Commandant Photo
+                                    </button>
+                                    <button type="button" class="btn-primary" onclick="deleteCommandantPhoto()" style="background:#dc3545;">
+                                        <i class="fas fa-trash"></i> Delete Photo
+                                    </button>
+                                </div>
+                                <p style="margin-top:10px;font-size:13px;color:#666;">
+                                    <i class="fas fa-info-circle"></i> Recommended: 240x240px (Square), Max 5MB (JPEG, JPG, PNG, GIF, WEBP)
+                                </p>
+                                <div id="commandant-photo-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top:30px;"><i class="fas fa-building"></i> Battalion Headquarters Image Management</h3>
+                    <div style="padding:20px;background:#f8fafc;border-radius:8px;margin-bottom:20px;">
+                        <div style="display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start;">
+                            <div style="text-align:center;">
+                                <img id="current-battalion-image" src="{{ url_for('static', filename='images/battalions/' + battalion.image) if battalion.image else url_for('static', filename='images/battalions/default-battalion.svg') }}" 
+                                     style="width:100%;height:200px;object-fit:cover;border:4px solid #003d82;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+                                <p style="margin-top:10px;font-size:13px;color:#666;">Current Building Image</p>
+                            </div>
+                            <div>
+                                <div class="form-row">
+                                    <input type="file" id="battalion-image-upload" class="form-control" accept="image/*" style="padding:10px;">
+                                </div>
+                                <div style="display:flex;gap:10px;margin-top:10px;">
+                                    <button type="button" class="btn-primary" onclick="uploadBattalionImage()" style="background:#28a745;">
+                                        <i class="fas fa-upload"></i> Upload Battalion Image
+                                    </button>
+                                    <button type="button" class="btn-primary" onclick="deleteBattalionImage()" style="background:#dc3545;">
+                                        <i class="fas fa-trash"></i> Delete Image
+                                    </button>
+                                </div>
+                                <p style="margin-top:10px;font-size:13px;color:#666;">
+                                    <i class="fas fa-info-circle"></i> Recommended: 800x400px or higher, Max 5MB (JPEG, JPG, PNG, GIF, WEBP)
+                                </p>
+                                <div id="battalion-image-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr style="margin: 40px 0; border: none; border-top: 3px solid #e5e7eb;">
+                    
+                    <!-- Battalion History Section -->
+                    <h3 style="margin-top:20px; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 15px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-history"></i> Battalion History Management
+                    </h3>
+                    <div style="padding:25px;background:#f0f9ff;border-radius:8px;margin-bottom:25px;border:2px solid #3b82f6;box-shadow: 0 4px 12px rgba(59,130,246,0.1);">
+                        <p style="color:#1e40af;margin-bottom:15px;font-weight:600;"><i class="fas fa-info-circle"></i> Manage your battalion's historical information that will appear on the public website</p>
+                        <textarea id="battalion-history" class="form-control" placeholder="Enter battalion history, achievements, milestones, and important events..." style="min-height:250px;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;">{{ battalion.history or '' }}</textarea>
+                        <div style="display:flex;gap:10px;margin-top:15px;">
+                            <button type="button" class="btn-primary" onclick="saveHistory()" style="background:#1e40af;padding:12px 30px;font-size:15px;">
+                                <i class="fas fa-save"></i> Save History
+                            </button>
+                        </div>
+                        <div id="history-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                    </div>
+                    
+                    <!-- Events Management Section -->
+                    <h3 style="margin-top:20px; background: linear-gradient(135deg, #16a34a, #22c55e); color: white; padding: 15px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-calendar-alt"></i> Events & Announcements Management
+                    </h3>
+                    <div style="padding:25px;background:#f0fdf4;border-radius:8px;margin-bottom:25px;border:2px solid #22c55e;box-shadow: 0 4px 12px rgba(34,197,94,0.1);">
+                        <p style="color:#16a34a;margin-bottom:15px;font-weight:600;"><i class="fas fa-info-circle"></i> Add and manage battalion events and announcements visible to website visitors</p>
+                        
+                        <!-- Add Event Form -->
+                        <div style="background:white;padding:20px;border-radius:8px;margin-bottom:20px;border:1px solid #22c55e;">
+                            <h4 style="color:#16a34a;margin-bottom:15px;font-size:18px;"><i class="fas fa-plus-circle"></i> Add New Event</h4>
+                            <input type="text" id="event-title" class="form-control" placeholder="Event Title (e.g., Annual Sports Day)" style="margin-bottom:10px;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                                <input type="text" id="event-date" class="form-control" placeholder="Date (e.g., January 25, 2026)">
+                                <input type="text" id="event-location" class="form-control" placeholder="Location (e.g., Battalion Grounds)">
+                            </div>
+                            <textarea id="event-description" class="form-control" placeholder="Event Description (Provide details about the event)" style="min-height:100px;"></textarea>
+                            <button type="button" class="btn-primary" onclick="addEvent()" style="background:#16a34a;margin-top:10px;padding:12px 30px;font-size:15px;">
+                                <i class="fas fa-plus"></i> Add Event
+                            </button>
+                            <div id="event-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                        </div>
+                        
+                        <!-- Existing Events List -->
+                        <div id="events-list" style="max-height:450px;overflow-y:auto;background:white;padding:15px;border-radius:8px;border:1px solid #d1fae5;">
+                            <h4 style="color:#16a34a;margin-bottom:15px;font-size:16px;"><i class="fas fa-list"></i> Existing Events</h4>
+                            <div id="events-container"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Announcements Management Section -->
+                    <h3 style="margin-top:20px; background: linear-gradient(135deg, #f39c12, #f59e0b); color: white; padding: 15px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-bullhorn"></i> Announcements Management
+                    </h3>
+                    <div style="padding:25px;background:#fffbeb;border-radius:8px;margin-bottom:25px;border:2px solid #fbbf24;box-shadow: 0 4px 12px rgba(251,191,36,0.1);">
+                        <p style="color:#f39c12;margin-bottom:15px;font-weight:600;"><i class="fas fa-info-circle"></i> Add and manage important announcements for your battalion</p>
+                        
+                        <!-- Add Announcement Form -->
+                        <div style="background:white;padding:20px;border-radius:8px;margin-bottom:20px;border:1px solid #fbbf24;">
+                            <h4 style="color:#f39c12;margin-bottom:15px;font-size:18px;"><i class="fas fa-plus-circle"></i> Add New Announcement</h4>
+                            <input type="text" id="announcement-title" class="form-control" placeholder="Announcement Title (e.g., Important Notice)" style="margin-bottom:10px;">
+                            <input type="text" id="announcement-date" class="form-control" placeholder="Date (e.g., January 25, 2026)" style="margin-bottom:10px;">
+                            <textarea id="announcement-content" class="form-control" placeholder="Announcement Content (Provide full details)" style="min-height:120px;"></textarea>
+                            <button type="button" class="btn-primary" onclick="addAnnouncement()" style="background:#f39c12;margin-top:10px;padding:12px 30px;font-size:15px;">
+                                <i class="fas fa-plus"></i> Add Announcement
+                            </button>
+                            <div id="announcement-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                        </div>
+                        
+                        <!-- Existing Announcements List -->
+                        <div id="announcements-list" style="max-height:450px;overflow-y:auto;background:white;padding:15px;border-radius:8px;border:1px solid #fef3c7;">
+                            <h4 style="color:#f39c12;margin-bottom:15px;font-size:16px;"><i class="fas fa-list"></i> Existing Announcements</h4>
+                            <div id="announcements-container"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Management Section -->
+                    <h3 style="margin-top:20px; background: linear-gradient(135deg, #9333ea, #a855f7); color: white; padding: 15px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-images"></i> Gallery Management
+                    </h3>
+                    <div style="padding:25px;background:#faf5ff;border-radius:8px;margin-bottom:25px;border:2px solid #c084fc;box-shadow: 0 4px 12px rgba(168,85,247,0.1);">
+                        <p style="color:#9333ea;margin-bottom:15px;font-weight:600;"><i class="fas fa-info-circle"></i> Upload and manage battalion gallery images (Photos, Events, Activities)</p>
+                        
+                        <!-- Upload Image Form -->
+                        <div style="background:white;padding:20px;border-radius:8px;margin-bottom:20px;border:1px solid #c084fc;">
+                            <h4 style="color:#9333ea;margin-bottom:15px;font-size:18px;"><i class="fas fa-cloud-upload-alt"></i> Upload New Image</h4>
+                            <input type="file" id="gallery-image-upload" class="form-control" accept="image/*" style="margin-bottom:10px;padding:10px;">
+                            <p style="font-size:12px;color:#666;margin-bottom:10px;"><i class="fas fa-info-circle"></i> Supported formats: JPG, PNG, GIF, WEBP | Max size: 5MB</p>
+                            <input type="text" id="gallery-caption" class="form-control" placeholder="Image Caption (optional - e.g., Training Exercise 2026)" style="margin-bottom:10px;">
+                            <button type="button" class="btn-primary" onclick="uploadGalleryImage()" style="background:#9333ea;padding:12px 30px;font-size:15px;">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </button>
+                            <div id="gallery-message" style="margin-top:10px;display:none;padding:10px;border-radius:6px;"></div>
+                        </div>
+                        
+                        <!-- Existing Gallery Images -->
+                        <div id="gallery-list" style="background:white;padding:15px;border-radius:8px;border:1px solid #e9d5ff;">
+                            <h4 style="color:#9333ea;margin-bottom:15px;font-size:16px;"><i class="fas fa-images"></i> Gallery Images (<span id="gallery-count">0</span>)</h4>
+                            <div id="gallery-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;min-height:100px;"></div>
+                        </div>
+                    </div>
+                    
+                    <hr style="margin: 30px 0; border: none; border-top: 2px solid #e5e7eb;">
+                    
+                    <button type="button" class="btn-primary" onclick="saveBattalionData()" style="font-size:16px;padding:14px 40px;"><i class="fas fa-save"></i> Save Battalion Info</button>
+                    <div id="battalion-message" class="success-message"></div>
+                    <div id="battalion-error" class="error-message"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // This is a Flask/Jinja2 template file with embedded JavaScript
+        // The {{ }} syntax is server-side template code that gets replaced before JavaScript runs
+        // Ignore all JavaScript linting errors in this file
+        /* jshint ignore:start */
+        /* eslint-disable */
+        // @ts-nocheck
+        
+        var battalionId = Number('{{ battalion.id }}');
+        
+        // Load dynamic content on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvents();
+            loadAnnouncements();
+            loadGallery();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('mainContent').classList.toggle('full-width');
+        }
+
+        // Format JSON function
+        function formatJSON() {
+            var textarea = document.getElementById('org-structure');
+            try {
+                var jsonObj = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(jsonObj, null, 2);
+                showTempMessage('JSON formatted successfully!', 'success');
+            } catch (error) {
+                showTempMessage('Invalid JSON format! Please fix errors first.', 'error');
+            }
+        }
+
+        // Validate JSON function
+        function validateJSON() {
+            var textarea = document.getElementById('org-structure');
+            try {
+                JSON.parse(textarea.value);
+                showTempMessage('✓ Valid JSON! Ready to save.', 'success');
+            } catch (error) {
+                showTempMessage('✗ Invalid JSON: ' + error.message, 'error');
+            }
+        }
+
+        // Temporary message helper
+        function showTempMessage(message, type) {
+            var messageDiv = document.getElementById('battalion-message');
+            var errorDiv = document.getElementById('battalion-error');
+            
+            if (type === 'success') {
+                messageDiv.textContent = message;
+                messageDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            } else {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                messageDiv.style.display = 'none';
+            }
+            
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function saveBattalionData() {
+            var battalionNumber = Number('{{ battalion.battalion_number }}');
+            var data = {
+                district: document.getElementById('battalion-district').value,
+                commandant_name: document.getElementById('commandant-name').value,
+                commandant_rank: document.getElementById('commandant-rank').value,
+                commandant_speech: document.getElementById('commandant-speech').value,
+                organizational_structure: document.getElementById('org-structure').value
+            };
+
+            fetch('/api/battalion/' + battalionNumber + '/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                var messageDiv = document.getElementById('battalion-message');
+                var errorDiv = document.getElementById('battalion-error');
+                
+                if (result.success) {
+                    messageDiv.textContent = result.message;
+                    messageDiv.style.display = 'block';
+                    errorDiv.style.display = 'none';
+                    setTimeout(function() {
+                        messageDiv.style.display = 'none';
+                    }, 3000);
+                } else {
+                    errorDiv.textContent = result.message || 'Failed to save battalion data';
+                    errorDiv.style.display = 'block';
+                    messageDiv.style.display = 'none';
+                }
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                var errorDiv = document.getElementById('battalion-error');
+                errorDiv.textContent = 'Error saving battalion data';
+                errorDiv.style.display = 'block';
+            });
+        }
+
+        function uploadCommandantPhoto() {
+            var bnNumber = Number('{{ battalion.battalion_number }}');
+            var cmdFileInput = document.getElementById('commandant-photo-upload');
+            var cmdFile = cmdFileInput.files[0];
+            
+            console.log('Uploading commandant photo for battalion:', bnNumber);
+            console.log('File:', cmdFile);
+            
+            if (!cmdFile) {
+                showPhotoMessage('commandant-photo-message', 'Please select a file', 'error');
+                return;
+            }
+
+            var cmdFormData = new FormData();
+            cmdFormData.append('photo', cmdFile);
+            cmdFormData.append('battalion_number', bnNumber);
+            
+            console.log('Sending to /api/battalion/upload-commandant-photo');
+
+            fetch('/api/battalion/upload-commandant-photo', {
+                method: 'POST',
+                body: cmdFormData
+            })
+            .then(function(response) {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    return response.json().then(function(data) {
+                        throw new Error(data.message || 'Upload failed');
+                    });
+                }
+                return response.json();
+            })
+            .then(function(result) {
+                console.log('Upload result:', result);
+                if (result.success) {
+                    showPhotoMessage('commandant-photo-message', result.message, 'success');
+                    setTimeout(function() { location.reload(); }, 1500);
+                } else {
+                    showPhotoMessage('commandant-photo-message', result.message || 'Upload failed', 'error');
+                }
+            })
+            .catch(function(error) {
+                console.error('Upload error:', error);
+                showPhotoMessage('commandant-photo-message', error.message || 'Upload failed. Please try again.', 'error');
+            });
+        }
+
+        function deleteCommandantPhoto() {
+            if (!confirm('Are you sure you want to delete the commandant photo?')) return;
+
+            var bnNumber = Number('{{ battalion.battalion_number }}');
+
+            fetch('/api/battalion/delete-commandant-photo', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({battalion_number: bnNumber})
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showPhotoMessage('commandant-photo-message', result.message, 'success');
+                    setTimeout(function() { location.reload(); }, 1500);
+                } else {
+                    showPhotoMessage('commandant-photo-message', result.message, 'error');
+                }
+            })
+            .catch(function(error) {
+                showPhotoMessage('commandant-photo-message', 'Delete failed', 'error');
+            });
+        }
+
+        function uploadBattalionImage() {
+            var bnNumber = Number('{{ battalion.battalion_number }}');
+            var btFileInput = document.getElementById('battalion-image-upload');
+            var btFile = btFileInput.files[0];
+            
+            if (!btFile) {
+                showPhotoMessage('battalion-image-message', 'Please select a file', 'error');
+                return;
+            }
+
+            var btFormData = new FormData();
+            btFormData.append('image', btFile);
+            btFormData.append('battalion_number', bnNumber);
+
+            fetch('/api/battalion/upload-battalion-image', {
+                method: 'POST',
+                body: btFormData
+            })
+            .then(function(response) {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    return response.json().then(function(data) {
+                        throw new Error(data.message || 'Upload failed');
+                    });
+                }
+                return response.json();
+            })
+            .then(function(result) {
+                console.log('Upload result:', result);
+                if (result.success) {
+                    showPhotoMessage('battalion-image-message', result.message, 'success');
+                    setTimeout(function() { location.reload(); }, 1500);
+                } else {
+                    showPhotoMessage('battalion-image-message', result.message || 'Upload failed', 'error');
+                }
+            })
+            .catch(function(error) {
+                console.error('Upload error:', error);
+                showPhotoMessage('battalion-image-message', error.message || 'Upload failed. Please try again.', 'error');
+            });
+        }
+
+        function deleteBattalionImage() {
+            if (!confirm('Are you sure you want to delete the battalion image?')) return;
+
+            var bnNumber = Number('{{ battalion.battalion_number }}');
+
+            fetch('/api/battalion/delete-battalion-image', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({battalion_number: bnNumber})
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showPhotoMessage('battalion-image-message', result.message, 'success');
+                    setTimeout(function() { location.reload(); }, 1500);
+                } else {
+                    showPhotoMessage('battalion-image-message', result.message, 'error');
+                }
+            })
+            .catch(function(error) {
+                showPhotoMessage('battalion-image-message', 'Delete failed', 'error');
+            });
+        }
+
+        function showPhotoMessage(elementId, message, type) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            }
+            
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'times') + '-circle"></i> ' + message;
+        }
+        
+        // ========== BATTALION HISTORY FUNCTIONS ==========
+        function saveHistory() {
+            var history = document.getElementById('battalion-history').value;
+            
+            fetch('/api/battalion/history/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    battalion_id: battalionId,
+                    history: history
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showMessage('history-message', result.message, 'success');
+                } else {
+                    showMessage('history-message', result.message || 'Failed to save history', 'error');
+                }
+            })
+            .catch(function(error) {
+                showMessage('history-message', 'Failed to save history', 'error');
+            });
+        }
+        
+        // ========== EVENTS FUNCTIONS ==========
+        function loadEvents() {
+            console.log('Loading events for battalion:', battalionId);
+            fetch('/api/battalion/events/list?battalion_id=' + battalionId)
+                .then(function(response) {
+                    console.log('Events response status:', response.status);
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log('Events data received:', data);
+                    var container = document.getElementById('events-container');
+                    if (data.events && data.events.length > 0) {
+                        container.innerHTML = data.events.map(function(event) {
+                            return '<div id="event-' + event.id + '" style="background:#ecfdf5;padding:18px;border-radius:8px;margin-bottom:12px;border:1px solid #a7f3d0;box-shadow:0 1px 3px rgba(0,0,0,0.1);">' +
+                                '<div style="display:flex;justify-content:space-between;align-items:start;gap:15px;">' +
+                                '<div style="flex:1;">' +
+                                '<h5 style="color:#16a34a;margin:0 0 8px 0;font-size:16px;font-weight:600;">' + event.title + '</h5>' +
+                                '<p style="color:#065f46;font-size:13px;margin:0 0 8px 0;background:#d1fae5;padding:4px 8px;border-radius:4px;display:inline-block;"><i class="fas fa-calendar"></i> ' + event.date + (event.location ? ' &nbsp;|&nbsp; <i class="fas fa-map-marker-alt"></i> ' + event.location : '') + '</p>' +
+                                '<p style="color:#374151;font-size:14px;margin:0;line-height:1.5;">' + (event.description || 'No description') + '</p>' +
+                                '</div>' +
+                                '<div style="display:flex;gap:8px;flex-direction:column;">' +
+                                '<button onclick="editEvent(' + event.id + ', \'' + event.title.replace(/'/g, "\\'") + '\', \'' + event.date + '\', \'' + (event.location || '').replace(/'/g, "\\'") + '\', \'' + (event.description || '').replace(/'/g, "\\'") + '\')" style="background:#0ea5e9;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;"><i class="fas fa-edit"></i> Edit</button>' +
+                                '<button onclick="deleteEvent(' + event.id + ')" style="background:#dc3545;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;"><i class="fas fa-trash"></i> Delete</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                        }).join('');
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;background:#f9fafb;border-radius:8px;border:2px dashed #d1d5db;">' +
+                            '<i class="fas fa-calendar-times" style="font-size:48px;color:#ccc;margin-bottom:15px;"></i>' +
+                            '<p style="color:#666;font-size:15px;margin:0;">No events added yet. Create your first event above!</p>' +
+                            '</div>';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading events:', error);
+                    document.getElementById('events-container').innerHTML = '<div style="text-align:center;padding:20px;color:#dc3545;background:#fee;border-radius:6px;"><i class="fas fa-exclamation-triangle"></i> Error loading events. Please refresh the page.</div>';
+                });
+        }
+        
+        function addEvent() {
+            var title = document.getElementById('event-title').value;
+            var date = document.getElementById('event-date').value;
+            var location = document.getElementById('event-location').value;
+            var description = document.getElementById('event-description').value;
+            
+            if (!title || !date) {
+                showMessage('event-message', 'Please fill in title and date', 'error');
+                return;
+            }
+            
+            fetch('/api/battalion/events/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    battalion_id: battalionId,
+                    title: title,
+                    date: date,
+                    location: location,
+                    description: description
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showMessage('event-message', result.message, 'success');
+                    document.getElementById('event-title').value = '';
+                    document.getElementById('event-date').value = '';
+                    document.getElementById('event-location').value = '';
+                    document.getElementById('event-description').value = '';
+                    loadEvents();
+                } else {
+                    showMessage('event-message', result.message || 'Failed to add event', 'error');
+                }
+            })
+            .catch(function(error) {
+                showMessage('event-message', 'Failed to add event', 'error');
+            });
+        }
+        
+        function editEvent(eventId, title, date, location, description) {
+            var eventDiv = document.getElementById('event-' + eventId);
+            eventDiv.innerHTML = '<div style="background:white;padding:15px;border-radius:6px;border:2px solid #0ea5e9;">' +
+                '<h5 style="color:#0ea5e9;margin:0 0 15px 0;"><i class="fas fa-edit"></i> Edit Event</h5>' +
+                '<input type="text" id="edit-event-title-' + eventId + '" value="' + title + '" placeholder="Event Title" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;margin-bottom:10px;font-size:14px;">' +
+                '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">' +
+                '<input type="text" id="edit-event-date-' + eventId + '" value="' + date + '" placeholder="Date" style="padding:10px;border:1px solid #ddd;border-radius:4px;font-size:14px;">' +
+                '<input type="text" id="edit-event-location-' + eventId + '" value="' + location + '" placeholder="Location" style="padding:10px;border:1px solid #ddd;border-radius:4px;font-size:14px;">' +
+                '</div>' +
+                '<textarea id="edit-event-description-' + eventId + '" placeholder="Description" style="width:100%;min-height:80px;padding:10px;border:1px solid #ddd;border-radius:4px;margin-bottom:10px;font-size:14px;">' + description + '</textarea>' +
+                '<div style="display:flex;gap:10px;">' +
+                '<button onclick="saveEvent(' + eventId + ')" style="flex:1;background:#10b981;color:white;border:none;padding:10px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;"><i class="fas fa-save"></i> Save</button>' +
+                '<button onclick="loadEvents()" style="flex:1;background:#6b7280;color:white;border:none;padding:10px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;"><i class="fas fa-times"></i> Cancel</button>' +
+                '</div>' +
+                '</div>';
+        }
+        
+        function saveEvent(eventId) {
+            var title = document.getElementById('edit-event-title-' + eventId).value;
+            var date = document.getElementById('edit-event-date-' + eventId).value;
+            var location = document.getElementById('edit-event-location-' + eventId).value;
+            var description = document.getElementById('edit-event-description-' + eventId).value;
+            
+            if (!title || !date) {
+                alert('Title and date are required');
+                return;
+            }
+            
+            fetch('/api/battalion/events/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    event_id: eventId,
+                    title: title,
+                    date: date,
+                    location: location,
+                    description: description
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadEvents();
+                } else {
+                    alert('Failed to update event: ' + result.message);
+                }
+            })
+            .catch(function(error) {
+                alert('Error updating event');
+            });
+        }
+        
+        function deleteEvent(eventId) {
+            if (!confirm('Are you sure you want to delete this event?')) return;
+            
+            fetch('/api/battalion/events/delete', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({event_id: eventId})
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadEvents();
+                } else {
+                    alert('Failed to delete event');
+                }
+            });
+        }
+        
+        // ========== ANNOUNCEMENTS FUNCTIONS ==========
+        function loadAnnouncements() {
+            console.log('Loading announcements for battalion:', battalionId);
+            fetch('/api/battalion/announcements/list?battalion_id=' + battalionId)
+                .then(function(response) {
+                    console.log('Announcements response status:', response.status);
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log('Announcements data received:', data);
+                    var container = document.getElementById('announcements-container');
+                    if (data.announcements && data.announcements.length > 0) {
+                        container.innerHTML = data.announcements.map(function(announcement) {
+                            return '<div id="announcement-' + announcement.id + '" style="background:#fef3c7;padding:18px;border-radius:8px;margin-bottom:12px;border:1px solid #fde68a;box-shadow:0 1px 3px rgba(0,0,0,0.1);">' +
+                                '<div style="display:flex;justify-content:space-between;align-items:start;gap:15px;">' +
+                                '<div style="flex:1;">' +
+                                '<h5 style="color:#f39c12;margin:0 0 8px 0;font-size:16px;font-weight:600;">' + announcement.title + '</h5>' +
+                                '<p style="color:#92400e;font-size:13px;margin:0 0 8px 0;background:#fde047;padding:4px 8px;border-radius:4px;display:inline-block;"><i class="fas fa-calendar"></i> ' + announcement.date + '</p>' +
+                                '<p style="color:#374151;font-size:14px;margin:0;line-height:1.5;">' + (announcement.content || 'No content') + '</p>' +
+                                '</div>' +
+                                '<div style="display:flex;gap:8px;flex-direction:column;">' +
+                                '<button onclick="editAnnouncement(' + announcement.id + ', \'' + announcement.title.replace(/'/g, "\\'") + '\', \'' + announcement.date + '\', \'' + (announcement.content || '').replace(/'/g, "\\'") + '\')" style="background:#0ea5e9;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;"><i class="fas fa-edit"></i> Edit</button>' +
+                                '<button onclick="deleteAnnouncement(' + announcement.id + ')" style="background:#dc3545;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;"><i class="fas fa-trash"></i> Delete</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                        }).join('');
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;padding:50px;color:#9ca3af;">' +
+                            '<i class="fas fa-bullhorn" style="font-size:48px;color:#fed7aa;margin-bottom:15px;"></i>' +
+                            '<p style="font-size:15px;font-weight:500;margin:0;">No announcements yet</p>' +
+                            '<p style="font-size:13px;margin:5px 0 0 0;">Add your first announcement above!</p>' +
+                            '</div>';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading announcements:', error);
+                    document.getElementById('announcements-container').innerHTML = '<div style="text-align:center;padding:20px;color:#dc3545;background:#fee;border-radius:6px;"><i class="fas fa-exclamation-triangle"></i> Error loading announcements. Please refresh the page.</div>';
+                });
+        }
+        
+        function addAnnouncement() {
+            var title = document.getElementById('announcement-title').value;
+            var date = document.getElementById('announcement-date').value;
+            var content = document.getElementById('announcement-content').value;
+            
+            if (!title || !date) {
+                showMessage('announcement-message', 'Please fill in title and date', 'error');
+                return;
+            }
+            
+            fetch('/api/battalion/announcements/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    battalion_id: battalionId,
+                    title: title,
+                    date: date,
+                    content: content
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showMessage('announcement-message', result.message, 'success');
+                    document.getElementById('announcement-title').value = '';
+                    document.getElementById('announcement-date').value = '';
+                    document.getElementById('announcement-content').value = '';
+                    loadAnnouncements();
+                } else {
+                    showMessage('announcement-message', result.message || 'Failed to add announcement', 'error');
+                }
+            })
+            .catch(function(error) {
+                showMessage('announcement-message', 'Failed to add announcement', 'error');
+            });
+        }
+        
+        function editAnnouncement(announcementId, title, date, content) {
+            var announcementDiv = document.getElementById('announcement-' + announcementId);
+            announcementDiv.innerHTML = '<div style="background:white;padding:15px;border-radius:6px;border:2px solid #0ea5e9;">' +
+                '<h5 style="color:#0ea5e9;margin:0 0 15px 0;"><i class="fas fa-edit"></i> Edit Announcement</h5>' +
+                '<input type="text" id="edit-announcement-title-' + announcementId + '" value="' + title + '" placeholder="Title" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;margin-bottom:10px;font-size:14px;">' +
+                '<input type="text" id="edit-announcement-date-' + announcementId + '" value="' + date + '" placeholder="Date" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;margin-bottom:10px;font-size:14px;">' +
+                '<textarea id="edit-announcement-content-' + announcementId + '" placeholder="Content" style="width:100%;min-height:80px;padding:10px;border:1px solid #ddd;border-radius:4px;margin-bottom:10px;font-size:14px;">' + content + '</textarea>' +
+                '<div style="display:flex;gap:10px;">' +
+                '<button onclick="saveAnnouncement(' + announcementId + ')" style="flex:1;background:#10b981;color:white;border:none;padding:10px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;"><i class="fas fa-save"></i> Save</button>' +
+                '<button onclick="loadAnnouncements()" style="flex:1;background:#6b7280;color:white;border:none;padding:10px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;"><i class="fas fa-times"></i> Cancel</button>' +
+                '</div>' +
+                '</div>';
+        }
+        
+        function saveAnnouncement(announcementId) {
+            var title = document.getElementById('edit-announcement-title-' + announcementId).value;
+            var date = document.getElementById('edit-announcement-date-' + announcementId).value;
+            var content = document.getElementById('edit-announcement-content-' + announcementId).value;
+            
+            if (!title || !date) {
+                alert('Title and date are required');
+                return;
+            }
+            
+            fetch('/api/battalion/announcements/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    announcement_id: announcementId,
+                    title: title,
+                    date: date,
+                    content: content
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadAnnouncements();
+                } else {
+                    alert('Failed to update announcement: ' + result.message);
+                }
+            })
+            .catch(function(error) {
+                alert('Error updating announcement');
+            });
+        }
+        
+        function deleteAnnouncement(announcementId) {
+            if (!confirm('Are you sure you want to delete this announcement?')) return;
+            
+            fetch('/api/battalion/announcements/delete', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({announcement_id: announcementId})
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadAnnouncements();
+                } else {
+                    alert('Failed to delete announcement');
+                }
+            });
+        }
+        
+        // ========== GALLERY FUNCTIONS ==========
+        function loadGallery() {
+            console.log('Loading gallery for battalion:', battalionId);
+            fetch('/api/battalion/gallery/list?battalion_id=' + battalionId)
+                .then(function(response) {
+                    console.log('Gallery response status:', response.status);
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log('Gallery data received:', data);
+                    var container = document.getElementById('gallery-container');
+                    
+                    if (data.gallery && data.gallery.length > 0) {
+                        container.innerHTML = '<div style="margin-bottom:15px;"><p style="color:#7c3aed;font-size:14px;font-weight:600;margin:0;padding:8px 15px;background:#f3e8ff;border-radius:6px;display:inline-block;"><i class="fas fa-images"></i> ' + data.gallery.length + ' Image' + (data.gallery.length !== 1 ? 's' : '') + ' Uploaded</p></div>' +
+                            '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;">' +
+                            data.gallery.map(function(image) {
+                                return '<div id="gallery-' + image.id + '" style="position:relative;border:2px solid #e9d5ff;border-radius:8px;overflow:hidden;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.1);">' +
+                                    '<img src="/static/' + image.image_path + '" style="width:100%;height:180px;object-fit:cover;display:block;" onerror="this.src=\'/static/images/battalions/default-battalion.svg\'">' +
+                                    '<div style="padding:10px;background:#faf5ff;">' +
+                                    '<p style="color:#374151;font-size:12px;margin:0 0 8px 0;font-weight:500;">' + (image.caption || 'No caption') + '</p>' +
+                                    '<div style="display:flex;gap:5px;">' +
+                                    '<button onclick="editGalleryCaption(' + image.id + ', \'' + (image.caption || '').replace(/'/g, "\\'") + '\')" style="flex:1;background:#0ea5e9;color:white;border:none;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;"><i class="fas fa-edit"></i> Edit</button>' +
+                                    '<button onclick="deleteGalleryImage(' + image.id + ')" style="flex:1;background:#dc3545;color:white;border:none;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;"><i class="fas fa-trash"></i> Delete</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                            }).join('') + '</div>';
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;padding:60px 20px;background:#faf5ff;border-radius:8px;border:2px dashed #d8b4fe;">' +
+                            '<i class="fas fa-images" style="font-size:56px;color:#d8b4fe;margin-bottom:20px;"></i>' +
+                            '<p style="color:#6b7280;font-size:16px;font-weight:500;margin:0 0 5px 0;">No images in gallery</p>' +
+                            '<p style="color:#9ca3af;font-size:13px;margin:0;">Upload your first image using the form above!</p>' +
+                            '</div>';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading gallery:', error);
+                    document.getElementById('gallery-container').innerHTML = '<div style="text-align:center;padding:20px;color:#dc3545;background:#fee;border-radius:6px;"><i class="fas fa-exclamation-triangle"></i> Error loading gallery. Please refresh the page.</div>';
+                });
+        }
+        
+        function uploadGalleryImage() {
+            var fileInput = document.getElementById('gallery-image-upload');
+            var caption = document.getElementById('gallery-caption').value;
+            
+            if (!fileInput.files || !fileInput.files[0]) {
+                showMessage('gallery-message', 'Please select an image file', 'error');
+                return;
+            }
+            
+            var formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            formData.append('caption', caption);
+            formData.append('battalion_id', battalionId);
+            
+            fetch('/api/battalion/gallery/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    showMessage('gallery-message', result.message, 'success');
+                    fileInput.value = '';
+                    document.getElementById('gallery-caption').value = '';
+                    loadGallery();
+                } else {
+                    showMessage('gallery-message', result.message || 'Failed to upload image', 'error');
+                }
+            })
+            .catch(function(error) {
+                showMessage('gallery-message', 'Failed to upload image', 'error');
+            });
+        }
+        
+        function deleteGalleryImage(imageId) {
+            if (!confirm('Are you sure you want to delete this image?')) return;
+            
+            fetch('/api/battalion/gallery/delete', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({image_id: imageId})
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadGallery();
+                } else {
+                    alert('Failed to delete image');
+                }
+            });
+        }
+        
+        function editGalleryCaption(imageId, currentCaption) {
+            var galleryDiv = document.getElementById('gallery-' + imageId);
+            var imgSrc = galleryDiv.querySelector('img').src;
+            
+            galleryDiv.innerHTML = '<img src="' + imgSrc + '" style="width:100%;height:180px;object-fit:cover;display:block;">' +
+                '<div style="padding:10px;background:#e0f2fe;">' +
+                '<input type="text" id="edit-caption-' + imageId + '" value="' + currentCaption + '" placeholder="Enter caption" style="width:100%;padding:8px;border:1px solid #0ea5e9;border-radius:4px;margin-bottom:8px;font-size:12px;">' +
+                '<div style="display:flex;gap:5px;">' +
+                '<button onclick="saveGalleryCaption(' + imageId + ')" style="flex:1;background:#10b981;color:white;border:none;padding:6px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;"><i class="fas fa-save"></i> Save</button>' +
+                '<button onclick="loadGallery()" style="flex:1;background:#6b7280;color:white;border:none;padding:6px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;"><i class="fas fa-times"></i> Cancel</button>' +
+                '</div>' +
+                '</div>';
+        }
+        
+        function saveGalleryCaption(imageId) {
+            var caption = document.getElementById('edit-caption-' + imageId).value;
+            
+            fetch('/api/battalion/gallery/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    image_id: imageId,
+                    caption: caption
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(result) {
+                if (result.success) {
+                    loadGallery();
+                } else {
+                    alert('Failed to update caption: ' + result.message);
+                }
+            })
+            .catch(function(error) {
+                alert('Error updating caption');
+            });
+        }
+        
+        // ========== HELPER FUNCTIONS ==========
+        function showMessage(elementId, message, type) {
+            var messageDiv = document.getElementById(elementId);
+            messageDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            }
+            
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'times') + '-circle"></i> ' + message;
+            
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

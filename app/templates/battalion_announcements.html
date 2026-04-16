@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ battalion.name }} - Announcements</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            border-radius: 50%;
+            padding: 0px;
+            object-position: center;
+            background-color: transparent;
+        }
+
+        .announcements-container {
+            margin: 40px auto;
+            max-width: 1400px;
+            padding: 0 20px;
+        }
+
+        .announcements-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            color: #003d82;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .announcement-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #e74c3c;
+        }
+
+        .announcement-card h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .announcement-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .announcement-description {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .no-announcements {
+            background: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="announcements-container">
+        <a href="{{ url_for('main.battalion_detail', battalion_id=battalion.battalion_number) }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to {{ battalion.name }}
+        </a>
+
+        <div class="announcements-header">
+            <h1 style="margin: 0; font-size: 2.5rem;"><i class="fas fa-bullhorn"></i> {{ battalion.name }} -
+                Announcements</h1>
+            <p style="margin-top: 10px; font-size: 1.1rem; opacity: 0.9;">Important updates and notices</p>
+        </div>
+
+        {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="announcement-card">
+            <h3><i class="fas fa-megaphone"></i> {{ announcement.title }}</h3>
+            <div class="announcement-meta">
+                <i class="fas fa-calendar"></i> Posted on: {{ announcement.date }}
+            </div>
+            <div class="announcement-description">
+                {{ announcement.content | safe }}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="no-announcements">
+            <i class="fas fa-bullhorn" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+            <h3 style="color: #666; margin-bottom: 10px;">No Announcements</h3>
+            <p>There are currently no announcements for {{ battalion.name }}. Check back later for updates.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

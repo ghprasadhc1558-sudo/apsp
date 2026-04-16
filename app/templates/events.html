@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Events - Andhra Pradesh Special Police</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}?v=17">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		.logo {
+			width: 80px !important;
+			height: 80px !important;
+			object-fit: cover;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: crisp-edges;
+			border-radius: 50%;
+			padding: 0px;
+			object-position: center;
+			background-color: transparent;
+		}
+
+		.page-header {
+			background: linear-gradient(135deg, #003d82, #0056b3);
+			color: white;
+			color: white;
+			padding: 25px 20px;
+			border-radius: 10px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+
+		.page-header h1 {
+			font-size: 32px;
+			margin-bottom: 10px;
+		}
+
+		.events-container {
+			max-width: 1750px !important;
+			width: 95% !important;
+			margin: 0 auto;
+			padding: 20px;
+			min-height: 80vh;
+			/* Ensure footer stays down */
+			display: flex;
+			flex-direction: column;
+		}
+
+		.events-grid {
+			display: grid;
+			grid-template-columns: repeat(6, 1fr);
+			gap: 12px;
+			padding: 10px 0;
+			align-items: start;
+		}
+
+		@media (max-width: 1200px) {
+			.events-grid {
+				grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+			}
+		}
+
+		@media (max-width: 768px) {
+			.events-container {
+				padding: 10px;
+			}
+
+			.page-header {
+				padding: 20px 15px;
+				margin-bottom: 15px;
+			}
+
+			.page-header h1 {
+				font-size: 24px;
+			}
+
+			.events-grid {
+				grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+				gap: 10px;
+			}
+		}
+
+		.event-card {
+			background: white;
+			border-radius: 6px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			transition: all 0.3s ease;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			overflow: hidden;
+			border: 1px solid #e2e8f0;
+			border-top: 3px solid #003d82;
+			min-height: 140px;
+		}
+
+		.event-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+		}
+
+		.event-icon {
+			width: 22px;
+			height: 22px;
+			border-radius: 4px;
+			background: #f8fafc;
+			border: 1px solid #e2e8f0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 10px;
+			color: #003d82;
+			margin-bottom: 6px;
+			position: relative;
+			z-index: 1;
+			margin-left: 8px;
+			margin-top: 8px;
+		}
+
+		.event-badge {
+			position: absolute;
+			top: 6px;
+			right: 6px;
+			background: #ffd700;
+			color: #000;
+			padding: 1px 4px;
+			border-radius: 3px;
+			font-weight: 800;
+			font-size: 8px;
+			z-index: 2;
+			text-transform: uppercase;
+		}
+
+		.event-card-content {
+			padding: 10px; /* Match service-card padding */
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+		}
+
+		.event-card h3 {
+			font-size: 12px;
+			font-weight: 800;
+			color: #0f172a;
+			margin-bottom: 3px;
+			line-height: 1.2;
+			text-transform: uppercase;
+		}
+
+		.event-date {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			font-size: 10px;
+			color: #64748b;
+			margin-bottom: 8px;
+			background: #f1f5f9;
+			padding: 3px 6px;
+			border-radius: 3px;
+			align-self: flex-start;
+		}
+
+		.event-date i {
+			color: #003d82;
+		}
+
+		.event-card p {
+			color: #475569;
+			font-size: 10px;
+			line-height: 1.3;
+			margin-bottom: 8px;
+			flex: 1;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.event-link-container {
+			margin-top: 10px;
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+
+		.event-link {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 4px;
+			padding: 4px 8px;
+			color: white !important;
+			text-decoration: none;
+			border-radius: 4px;
+			font-size: 9px;
+			font-weight: 700;
+			transition: all 0.2s;
+			flex: 1;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		.pdf-link {
+			background: linear-gradient(135deg, #003d82, #1a5c9e);
+			box-shadow: 0 2px 6px rgba(0, 61, 130, 0.2);
+		}
+
+		.pdf-link:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 10px rgba(0, 61, 130, 0.25);
+			background: linear-gradient(135deg, #002a5c, #003d82);
+		}
+
+		.external-link {
+			background: white;
+			color: #003d82 !important;
+			border: 1px solid #003d82;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+		}
+
+		.external-link:hover {
+			transform: translateY(-1px);
+			background: #f0f7ff;
+			box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		.no-events {
+			text-align: center;
+			padding: 40px 20px;
+			color: #666;
+			grid-column: 1 / -1;
+			margin: auto;
+		}
+
+		.no-events i {
+			font-size: 40px;
+			color: #cbd5e1;
+			margin-bottom: 15px;
+		}
+	</style>
+</head>
+
+<body>
+	{% include 'includes/header.html' %}
+
+
+	<div class="events-container">
+		<div class="events-grid">
+			{% if events and events|length > 0 %}
+			{% for event in events %}
+			<div class="event-card">
+				<div class="event-badge">
+					<i class="fas fa-bell"></i> New
+				</div>
+				<div class="event-icon">
+					<i class="fas fa-calendar-check"></i>
+				</div>
+				<div class="event-card-content">
+					<h3>{{ event.title }}</h3>
+					<div class="event-date">
+						<i class="fas fa-calendar-alt"></i>
+						<span>{{ event.created_at.strftime('%B %d, %Y') }}</span>
+					</div>
+					<p>{{ event.description }}</p>
+
+					<div class="event-link-container">
+						{% if event.pdf_file %}
+						<a href="{{ url_for('static', filename='pdfs/' + event.pdf_file) }}" target="_blank"
+							class="event-link pdf-link">
+							<i class="fas fa-file-pdf"></i>
+							<span>Download PDF</span>
+						</a>
+						{% endif %}
+
+						{% if event.image_url %}
+						<a href="{{ event.image_url }}" target="_blank" class="event-link external-link">
+							<i class="fas fa-link"></i>
+							<span>Visit Link</span>
+						</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div style="grid-column: 1 / -1;">
+				<div class="no-events">
+					<i class="fas fa-calendar-times"></i>
+					<h2>No Events Available</h2>
+					<p>Currently, there are no events to display. Please check back later.</p>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+	{% include 'includes/footer.html' %}
+
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Structure - APSP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
+
+        .dashboard-wrapper {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #22741c, #2d9624);
+            color: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 25px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .battalion-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .battalion-info h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .battalion-info p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: white;
+        }
+
+        .sidebar-menu i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .instructions code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-size: 13px;
+        }
+
+        .json-example {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .json-example pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #333;
+            overflow-x: auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+            min-height: 400px;
+            resize: vertical;
+            background: #f8f9fa;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #22741c;
+            box-shadow: 0 0 0 3px rgba(34, 116, 28, 0.1);
+            background: white;
+        }
+
+        .validation-status {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .validation-status.valid {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .validation-status.invalid {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22741c, #2d9624);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 116, 28, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-validate {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-validate:hover {
+            background: #0056b3;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-280px);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Battalion Admin</h2>
+                <p>{{ current_user.username }}</p>
+                <div class="battalion-info">
+                    <h3>{{ battalion.battalion_number }}{{ 'st' if battalion.battalion_number == 1 else 'nd' if battalion.battalion_number == 2 else 'rd' if battalion.battalion_number == 3 else 'th' }} Battalion</h3>
+                    <p>{{ battalion.district }}</p>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="{{ url_for('main.battalion_admin_dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_edit') }}"><i class="fas fa-edit"></i> Edit Battalion Info</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_commandant') }}"><i class="fas fa-user-tie"></i> Manage Commandant</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_organization') }}" class="active"><i class="fas fa-sitemap"></i> Organization Structure</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_history') }}"><i class="fas fa-history"></i> Battalion History</a></li>
+                <li><a href="{{ url_for('main.battalion_admin_change_password') }}"><i class="fas fa-key"></i> Change Password</a></li>
+                <li><a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1><i class="fas fa-sitemap"></i> Organization Structure</h1>
+                <p>Manage your battalion's organizational hierarchy and officer details</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-container">
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> JSON Format Instructions</h3>
+                    <ul>
+                        <li>The organization structure must be in valid JSON format</li>
+                        <li>Use <code>"name"</code> for officer/section names</li>
+                        <li>Use <code>"rank"</code> for officer ranks/designations</li>
+                        <li>Use <code>"children"</code> array for subordinate officers/sections</li>
+                        <li>Ensure all strings are in double quotes</li>
+                        <li>Don't forget commas between items (but not after the last item)</li>
+                        <li>Click "Validate JSON" to check for errors before saving</li>
+                    </ul>
+
+                    <div class="json-example">
+                        <strong>Example Structure:</strong>
+                        <pre>{
+  "name": "Commandant",
+  "rank": "DIG",
+  "children": [
+    {
+      "name": "Second-in-Command",
+      "rank": "Addl. SP",
+      "children": [
+        {
+          "name": "Company 1",
+          "rank": "SDPO",
+          "children": []
+        },
+        {
+          "name": "Company 2",
+          "rank": "SDPO",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Administrative Officer",
+      "rank": "DSP",
+      "children": []
+    }
+  ]
+}</pre>
+                    </div>
+                </div>
+
+                <form method="POST" id="org-form">
+                    <div class="form-group">
+                        <label for="organizational_structure">
+                            Organizational Structure (JSON Format) *
+                        </label>
+                        <textarea id="organizational_structure" 
+                                  name="organizational_structure" 
+                                  required
+                                  placeholder="Enter the organizational structure in JSON format..."
+                        >{{ battalion.organizational_structure or '' }}</textarea>
+                        <div class="validation-status" id="validation-status"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-validate" onclick="validateJSON()">
+                            <i class="fas fa-check"></i> Validate JSON
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Structure
+                        </button>
+                        <a href="{{ url_for('main.battalion_admin_dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function validateJSON() {
+            const textarea = document.getElementById('organizational_structure');
+            const statusDiv = document.getElementById('validation-status');
+            const jsonText = textarea.value.trim();
+
+            if (!jsonText) {
+                statusDiv.className = 'validation-status invalid';
+                statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> Please enter organizational structure data';
+                return false;
+            }
+
+            try {
+                const parsed = JSON.parse(jsonText);
+                
+                // Basic structure validation
+                if (typeof parsed !== 'object' || Array.isArray(parsed)) {
+                    throw new Error('Root must be an object, not an array');
+                }
+                
+                if (!parsed.name) {
+                    throw new Error('Root object must have a "name" field');
+                }
+
+                statusDiv.className = 'validation-status valid';
+                statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> Valid JSON structure! Ready to save.';
+                return true;
+            } catch (e) {
+                statusDiv.className = 'validation-status invalid';
+                statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> Invalid JSON: ' + e.message;
+                return false;
+            }
+        }
+
+        // Auto-validate on blur
+        document.getElementById('organizational_structure').addEventListener('blur', validateJSON);
+
+        // Form submission validation
+        document.getElementById('org-form').addEventListener('submit', function(e) {
+            const isValid = validateJSON();
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fix JSON errors before submitting.');
+                return false;
+            }
+        });
+
+        // Format JSON button (optional enhancement)
+        function formatJSON() {
+            const textarea = document.getElementById('organizational_structure');
+            try {
+                const parsed = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(parsed, null, 2);
+                validateJSON();
+            } catch (e) {
+                alert('Cannot format invalid JSON. Please fix errors first.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Announcements - Andhra Pradesh Special Police</title>
+	    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=17">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}?v=17">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		.logo {
+			width: 80px !important;
+			height: 80px !important;
+			object-fit: cover;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: crisp-edges;
+			border-radius: 50%;
+			padding: 0px;
+			object-position: center;
+			background-color: transparent;
+		}
+
+		.announcements-container {
+			max-width: 1000px;
+			margin: 0 auto;
+			padding: 30px 20px;
+			min-height: calc(100vh - 500px);
+		}
+
+		.page-header {
+			background: linear-gradient(135deg, #ff6600, #ff8800);
+			color: white;
+			padding: 40px 30px;
+			border-radius: 10px;
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
+		.page-header h1 {
+			font-size: 36px;
+			margin-bottom: 10px;
+			font-weight: 700;
+		}
+
+		.page-header p {
+			font-size: 18px;
+			opacity: 0.95;
+		}
+
+		.announcements-list {
+			display: flex;
+			flex-direction: column;
+			gap: 25px;
+		}
+
+		.announcement-card {
+			background: white;
+			border-left: 5px solid #ff6600;
+			border-radius: 8px;
+			padding: 25px 30px;
+			box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+			transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+		}
+
+		.announcement-card:hover {
+			transform: translateX(5px);
+			box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+			border-color: #003d82;
+		}
+
+		.announcement-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			margin-bottom: 15px;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.announcement-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 14px;
+			background: #ff6600;
+			color: white;
+			border-radius: 20px;
+			font-size: 12px;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+
+		.announcement-badge.urgent {
+			background: #cc0000;
+			animation: pulse 2s infinite;
+		}
+
+		.announcement-badge.new {
+			background: #006644;
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				opacity: 1;
+			}
+
+			50% {
+				opacity: 0.7;
+			}
+		}
+
+		.announcement-date {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			color: #666;
+			font-size: 14px;
+		}
+
+		.announcement-date i {
+			color: #ff6600;
+		}
+
+		.announcement-card h3 {
+			color: #003d82;
+			font-size: 22px;
+			margin-bottom: 12px;
+			line-height: 1.4;
+		}
+
+		.announcement-card p {
+			color: #444;
+			line-height: 1.8;
+			margin-bottom: 15px;
+		}
+
+		.announcement-details {
+			display: flex;
+			gap: 20px;
+			flex-wrap: wrap;
+			margin-top: 15px;
+			padding-top: 15px;
+			border-top: 1px solid #e0e0e0;
+			font-size: 14px;
+			color: #666;
+		}
+
+		.announcement-details span {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.announcement-details i {
+			color: #003d82;
+		}
+
+		.download-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 10px 18px;
+			background: linear-gradient(135deg, #003d82, #0056b3);
+			color: white;
+			text-decoration: none;
+			border-radius: 6px;
+			font-weight: 600;
+			transition: all 0.3s;
+			margin-top: 15px;
+		}
+
+		.download-link:hover {
+			background: linear-gradient(135deg, #0056b3, #003d82);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 61, 130, 0.3);
+		}
+
+		@media (max-width: 768px) {
+			.announcement-header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.announcement-card {
+				padding: 20px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	{% include 'includes/header.html' %}
+
+	<div class="announcements-container">
+
+		<div class="announcements-list">
+			<!-- Urgent Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge urgent"><i class="fas fa-exclamation-circle"></i> Urgent</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> January 6, 2026</span>
+				</div>
+				<h3>Emergency Drill Schedule for All Battalions - January 2026</h3>
+				<p>All battalions are hereby informed about the upcoming state-wide emergency preparedness drill
+					scheduled for January 15-17, 2026. The drill will simulate various disaster scenarios including
+					floods, earthquakes, and civil disturbances. All personnel must report to their respective battalion
+					headquarters by 0600 hours on January 15, 2026.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-map-marker-alt"></i> All Battalion Headquarters</span>
+					<span><i class="fas fa-clock"></i> 15-17 January, 2026</span>
+					<span><i class="fas fa-user"></i> All Personnel</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Detailed Schedule</a>
+			</div>
+
+			<!-- New Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge new"><i class="fas fa-star"></i> New</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> January 4, 2026</span>
+				</div>
+				<h3>DPC Results: RSIs to RIs Promotion Panel 2024-25</h3>
+				<p>The Departmental Promotion Committee (DPC) results for promotion from Reserve Sub-Inspector (RSI) to
+					Reserve Inspector (RI) for the year 2024-25 have been finalized. The panel of 45 RSIs has been
+					approved for promotion. Selected candidates will receive individual communication within 7 working
+					days. The seniority list and posting orders will be issued subsequently.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-users"></i> 45 Promotions</span>
+					<span><i class="fas fa-clipboard-check"></i> DPC Approved</span>
+					<span><i class="fas fa-file-alt"></i> Reference No: APSP/EST/DPC/2024-25/128</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Panel List</a>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-info-circle"></i> Notice</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> January 2, 2026</span>
+				</div>
+				<h3>Commemoration Day 2026 - Republic Day Parade Participation</h3>
+				<p>APSP personnel are invited to participate in the Republic Day Parade 2026 scheduled on January 26,
+					2026, at Indira Gandhi Municipal Stadium, Vijayawada. Selected contingents from all battalions will
+					march in the parade. Rehearsals will commence from January 10, 2026. Battalion commandants are
+					requested to nominate personnel and submit names by January 8, 2026.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-map-marker-alt"></i> IG Stadium, Vijayawada</span>
+					<span><i class="fas fa-calendar-alt"></i> Rehearsal: Jan 10-25</span>
+					<span><i class="fas fa-flag"></i> Parade: Jan 26, 2026</span>
+				</div>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-graduation-cap"></i> Training</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> December 28, 2025</span>
+				</div>
+				<h3>Advanced Training Program for Sub-Inspectors - Registration Open</h3>
+				<p>Applications are invited from eligible Sub-Inspectors for the Advanced Leadership and Management
+					Training Program scheduled for February 2026 at APSP Training Academy, Vijayawada. The 4-week
+					residential program covers modern policing techniques, disaster management, cyber security, and
+					leadership development. Limited seats available (60 participants).</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-calendar-check"></i> Duration: 4 Weeks</span>
+					<span><i class="fas fa-users"></i> Seats: 60</span>
+					<span><i class="fas fa-calendar-times"></i> Last Date: January 20, 2026</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Application Form</a>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-money-bill"></i> Welfare</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> December 25, 2025</span>
+				</div>
+				<h3>Medical Reimbursement Claims - Submission Guidelines Updated</h3>
+				<p>New guidelines for medical reimbursement claims have been issued. All personnel are required to
+					submit claims through the online portal within 30 days of treatment. Claims must include original
+					bills, prescription, and diagnostic reports. The maximum reimbursement limit has been revised to
+					₹2,00,000 per financial year for self and immediate family members.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-rupee-sign"></i> Limit: ₹2,00,000/year</span>
+					<span><i class="fas fa-laptop"></i> Online Submission</span>
+					<span><i class="fas fa-clock"></i> Within 30 Days</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Guidelines PDF</a>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-file-invoice"></i> Administrative</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> December 20, 2025</span>
+				</div>
+				<h3>Annual Property Returns (APR) Submission - Mandatory for All Officers</h3>
+				<p>All gazetted officers are hereby reminded to submit their Annual Property Returns (APR) for the
+					financial year 2024-25 by January 31, 2026. The returns must be submitted online through the
+					official portal. Officers who fail to submit returns by the deadline will face disciplinary action
+					as per service rules. Format and guidelines are available on the APSP intranet portal.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-users-cog"></i> Gazetted Officers</span>
+					<span><i class="fas fa-calendar-times"></i> Deadline: Jan 31, 2026</span>
+					<span><i class="fas fa-globe"></i> Online Submission Mandatory</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Format & Guidelines</a>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-home"></i> Housing</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> December 15, 2025</span>
+				</div>
+				<h3>New Residential Quarters Allotment - 3rd Phase Applications</h3>
+				<p>Applications are invited for allotment of newly constructed residential quarters at APSP Colony,
+					Mangalagiri (Phase-3). A total of 120 quarters (Type-II, III, and IV) are available. Eligible
+					personnel can apply online. Allotment will be based on seniority and need. Inspection of quarters is
+					allowed on weekdays between 10:00 AM to 4:00 PM.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-building"></i> 120 Quarters Available</span>
+					<span><i class="fas fa-map-marker-alt"></i> APSP Colony, Mangalagiri</span>
+					<span><i class="fas fa-calendar-times"></i> Apply by: January 25, 2026</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Application & Details</a>
+			</div>
+
+			<!-- Regular Announcement -->
+			<div class="announcement-card">
+				<div class="announcement-header">
+					<span class="announcement-badge"><i class="fas fa-trophy"></i> Recruitment</span>
+					<span class="announcement-date"><i class="fas fa-calendar"></i> December 10, 2025</span>
+				</div>
+				<h3>APSP Recruitment 2026 - Notification Released for 500 Posts</h3>
+				<p>Andhra Pradesh Special Police invites applications for direct recruitment to 500 posts including
+					Reserve Sub-Inspectors (200), Head Constables (150), and Constables (150). Online applications will
+					be accepted from January 15 to February 15, 2026. Written examination is scheduled for March 2026.
+					Detailed notification, eligibility criteria, and syllabus are available on the official website.</p>
+				<div class="announcement-details">
+					<span><i class="fas fa-user-plus"></i> 500 Vacancies</span>
+					<span><i class="fas fa-calendar-alt"></i> Apply: Jan 15 - Feb 15</span>
+					<span><i class="fas fa-pencil-alt"></i> Exam: March 2026</span>
+				</div>
+				<a href="#" class="download-link"><i class="fas fa-download"></i> Download Complete Notification</a>
+			</div>
+		</div>
+	</div>
+
+    {% include 'includes/footer.html' %}
+
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ battalion.name }} - APSP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/battalions.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            border-radius: 50%;
+            padding: 0px;
+            object-position: center;
+            background-color: transparent;
+        }
+
+        .battalion-detail-header {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            margin: 30px 0 20px 0;
+            align-items: flex-start;
+            max-width: 1400px;
+        }
+
+        .commandant-photo-section {
+            text-align: center;
+        }
+
+        /* Enhanced Square Commandant Photo with Better Quality */
+        .commandant-photo {
+            width: 300px;
+            height: 350px;
+            object-fit: contain;
+            border: 5px solid #003d82;
+            border-radius: 8px !important;
+            box-shadow: 0 6px 20px rgba(0, 61, 130, 0.3);
+            image-rendering: auto;
+            image-rendering: -webkit-optimize-contrast;
+            background: #ffffff;
+        }
+
+        .battalion-right-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .battalion-detail-info {
+            font-size: 1.1rem;
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .battalion-image-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .battalion-building-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border: 4px solid #003d82;
+            border-radius: 8px;
+            display: block;
+            background: #f8f9fa;
+        }
+
+        .battalion-detail-info h2 {
+            margin-bottom: 15px;
+            color: #003d82;
+            font-size: 28px;
+        }
+
+        .battalion-detail-info .commandant-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #003d82;
+            margin-bottom: 8px;
+        }
+
+        .battalion-detail-info .commandant-title {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .battalion-detail-info p {
+            margin: 8px 0;
+        }
+
+        /* District with Location Icon */
+        .district-with-location {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .location-icon-link {
+            color: #dc3545;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .location-icon-link:hover {
+            color: #bd2130;
+            transform: scale(1.2);
+        }
+
+        .location-icon-link i {
+            filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+        }
+
+        /* Content Buttons */
+        .content-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-btn i {
+            font-size: 16px;
+        }
+
+        .history-btn {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+        }
+
+        .history-btn:hover {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .events-btn {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+        }
+
+        .events-btn:hover {
+            background: linear-gradient(135deg, #15803d, #16a34a);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+        }
+
+        .gallery-btn {
+            background: linear-gradient(135deg, #9333ea, #a855f7);
+            color: white;
+        }
+
+        .gallery-btn:hover {
+            background: linear-gradient(135deg, #7e22ce, #9333ea);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+        }
+
+        .battalion-logo {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 968px) {
+            .battalion-detail-header {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .commandant-photo {
+                width: 220px;
+                height: 260px;
+            }
+
+            .battalion-image-container {
+                height: 300px;
+            }
+
+            .battalion-building-img {
+                height: 300px;
+            }
+
+            .content-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+
+        .commandant-speech {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-left: 4px solid #003d82;
+            border-radius: 8px;
+        }
+
+        .commandant-speech h3 {
+            color: #003d82;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .commandant-speech p {
+            line-height: 1.8;
+            font-style: italic;
+            color: #555;
+        }
+
+        .about-battalion {
+            margin-top: 30px;
+        }
+
+        .about-battalion h3 {
+            color: #003d82;
+            margin-bottom: 15px;
+        }
+
+        .org-structure {
+            margin-top: 40px;
+            background: #fff;
+            padding: 30px;
+            border: 1px solid #ddd;
+        }
+
+        .commandant-header {
+            background: #333;
+            color: #ffd700;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .org-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+
+
+        .org-table th {
+            background: #e0e0e0;
+            color: #333;
+            padding: 14px;
+            text-align: center;
+            font-weight: 800 !important;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            text-transform: uppercase;
+        }
+
+        .org-table td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            background: #fff;
+            vertical-align: middle;
+            text-align: center;
+            color: #333;
+            font-size: 15px;
+            font-weight: 700 !important; /* Total Bold */
+        }
+
+        .org-table tr:nth-child(even) td {
+            background: #fff;
+            /* Removed zebra striping as per image */
+        }
+
+        .org-table td:first-child {
+            font-weight: 500;
+        }
+
+        /* Red text for Group/Company Names */
+        .text-red {
+            color: #cc0000 !important;
+        }
+
+        /* Special styling for Officer Titles */
+        .officer-title {
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .officer-name-label {
+            color: #000;
+            font-weight: 800 !important;
+            font-size: 14px;
+        }
+
+        .officer-section {
+            margin-bottom: 20px;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        .officer-section h4 {
+            color: #cc0000;
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .officer-name {
+            font-weight: bold;
+            color: #000;
+            font-size: 14px;
+            padding: 0;
+        }
+
+        .org-content {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container" style="margin-top:30px;">
+        <a href="{{ url_for('main.battalions') }}" style="color:#003d82;text-decoration:none;font-weight:600;">&larr;
+            Back to All Battalions</a>
+
+        <!-- Section 1: Full Width Battalion Image (Moved to Top) -->
+        <div class="battalion-full-image-section" style="margin-bottom: 40px;">
+            <div class="battalion-image-container"
+                style="width: 100%; height: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <img src="{{ url_for('static', filename='images/battalions/' ~ (battalion.image if battalion.image else (battalion.battalion_number|string ~ 'th-bn.jpeg'))) }}"
+                    alt="{{ battalion.name }}" class="battalion-building-img"
+                    style="width: 100%; height: auto; max-height: 500px; object-fit: cover; border-radius: 8px; border: 4px solid #003d82;"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23999%22 font-size=%2216%22%3EBuilding%3C/text%3E%3C/svg%3E'">
+            </div>
+        </div>
+
+        <!-- Section 2: Split Layout (Commandant Left, Info Right) -->
+        <div class="battalion-content-split">
+
+            <!-- Left Column: Commandant Profile -->
+            <div class="commandant-profile-col">
+                <!-- Commandant Photo -->
+                <div class="commandant-photo-wrapper" style="margin-bottom: 20px; text-align: center;">
+                    <img src="{{ url_for('static', filename='images/commandants/' + battalion.commandant_image) }}"
+                        alt="{{ battalion.commandant_name }}" class="commandant-photo"
+                        style="width: 100%; max-width: 300px; height: 380px; object-fit: cover; object-position: top; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 4px solid #003d82;"
+                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23999%22 font-size=%2214%22%3EImage%3C/text%3E%3C/svg%3E'">
+                </div>
+
+                <!-- Commandant Info -->
+                <div class="commandant-info" style="line-height: 1.3; text-align: center; margin-bottom: 20px;">
+                    <h3 class="commandant-name"
+                        style="font-size: 22px; font-weight: 700; color: #003d82; margin: 0 0 5px 0;">{{
+                        battalion.commandant_name }}</h3>
+                    {% if battalion.commandant_rank %}
+                    <div class="commandant-rank"
+                        style="font-size: 16px; color: #333; font-weight: 600; margin-bottom: 4px;">{{
+                        battalion.commandant_rank }}</div>
+                    {% endif %}
+                    <div class="commandant-title" style="font-size: 14px; color: #555; font-weight: 500;">Commandant of
+                        {{ battalion.name }}</div>
+                </div>
+            </div>
+
+            <!-- Right Column: Battalion Info & Buttons -->
+            <div class="battalion-info-col">
+                <div class="battalion-detail-info" style="margin-bottom: 30px;">
+                    <h2>{{ battalion.name }}</h2>
+                    <div class="district-with-location">
+                        <p style="margin: 0;"><strong>District:</strong> {{ battalion.district }}</p>
+                        <a href="https://www.google.com/maps/search/{{ battalion.name }}+Headquarters+{{ battalion.district }}+Andhra+Pradesh"
+                            target="_blank" class="location-icon-link"
+                            title="View {{ battalion.name }} Headquarters Location on Google Maps">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Moved Here) -->
+                <!-- Action Buttons (Matched Height / Card Style) -->
+                <div
+                    style="display: flex; flex-direction: row; gap: 20px; flex-wrap: wrap; margin-top: 20px; width: 100%;">
+                    <a href="/battalion/{{ battalion.battalion_number }}/history" class="content-btn history-btn"
+                        style="flex: 1; min-width: 150px; padding: 25px 15px; font-size: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; height: auto;">
+                        <i class="fas fa-history" style="font-size: 32px;"></i> Battalion History
+                    </a>
+
+                    <a href="/battalion/{{ battalion.battalion_number }}/events" class="content-btn events-btn"
+                        style="flex: 1; min-width: 150px; padding: 25px 15px; font-size: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; height: auto;">
+                        <i class="fas fa-bullhorn" style="font-size: 32px;"></i> Announcements
+                    </a>
+
+                    <a href="/battalion/{{ battalion.battalion_number }}/gallery" class="content-btn gallery-btn"
+                        style="flex: 1; min-width: 150px; padding: 25px 15px; font-size: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; height: auto;">
+                        <i class="fas fa-images" style="font-size: 32px;"></i> Gallery
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacer to replace removed sections -->
+        <div style="display: none;">
+
+        </div> <!-- End of spacer -->
+
+        {% if org_data %}
+        <div class="org-structure">
+            <!-- Commandant Header -->
+            <div class="commandant-header">
+                COMMANDANT : {{ org_data.commandant.name if org_data.commandant else battalion.commandant_name
+                }}
+            </div>
+            <div class="org-content">
+                <!-- Additional Commandant Groups Table -->
+                {% if org_data.additional_commandant and org_data.additional_commandant.groups %}
+                <table class="org-table">
+                    <thead>
+                        <tr>
+                            <th>GROUP HEAD</th>
+                            <th>GROUP</th>
+                            <th>GROUP INCHARGE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set group_count = org_data.additional_commandant.groups|length %}
+                        {% for group in org_data.additional_commandant.groups %}
+                        <tr>
+                            {% if loop.first %}
+                            <td rowspan="{{ group_count }}" style="vertical-align: middle; padding: 15px;">
+                                <div class="officer-title">ADDITIONAL COMMANDANT</div>
+                                <div class="officer-name-label">NAME : {{ org_data.additional_commandant.name }}</div>
+                            </td>
+                            {% endif %}
+                            <td class="text-red">{{ group.name }}</td>
+                            <td>{{ group.incharge if group.incharge else '' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                <!-- Legacy Groups Table (for old format) -->
+                {% if org_data.groups %}
+                <table class="org-table" style="margin-bottom: 30px;">
+                    <thead>
+                        <tr>
+                            <th>GROUP HEAD</th>
+                            <th>GROUP</th>
+                            <th>GROUP INCHARGE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for group in org_data.groups %}
+                        <tr>
+                            <td>{{ group.head }}</td>
+                            <td class="text-red">{{ group.group }}</td>
+                            <td>{{ group.incharge }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                <!-- Additional Commandant (legacy format) -->
+                {% if org_data.additional_commandant and not org_data.additional_commandant.groups %}
+                <div class="officer-section">
+                    <h4>ADDITIONAL COMMANDANT</h4>
+                    <div class="officer-name">NAME : {{ org_data.additional_commandant if
+                        org_data.additional_commandant
+                        is string else org_data.additional_commandant.name }}</div>
+                </div>
+                {% endif %}
+
+                <!-- Assistant Commandants Table -->
+                {% if org_data.assistant_commandants %}
+                {% for ac in org_data.assistant_commandants %}
+                <table class="org-table" style="margin-top: 30px;">
+                    <thead>
+                        <tr>
+                            <th>COMPANY HEAD</th>
+                            <th>COMPANY</th>
+                            <th>COMPANY INCHARGE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ac.companies and ac.companies|length > 0 %}
+                        {% set company_count = ac.companies|length %}
+                        {% for company in ac.companies %}
+                        <tr>
+                            {% if loop.first %}
+                            <td rowspan="{{ company_count }}" style="vertical-align: middle; padding: 20px 15px;">
+                                <div class="officer-title">ASSISTANT COMMANDANT</div>
+                                <div class="officer-name-label">NAME : {{ ac.name }}</div>
+                            </td>
+                            {% endif %}
+                            <td class="text-red">{{ company.company }}</td>
+                            <td>{{ company.incharge }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td style="vertical-align: middle; padding: 20px 15px; height: 70px;">
+                                <div class="officer-title">ASSISTANT COMMANDANT</div>
+                                <div class="officer-name-label">NAME : {{ ac.name }}</div>
+                            </td>
+                            <td style="height: 70px;"></td>
+                            <td style="height: 70px;"></td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Battalion Admin Section -->
+        <div style="margin-top: 30px; margin-bottom: 30px;">
+            {% if current_user.is_authenticated and (current_user.is_admin or (current_user.is_battalion_admin and current_user.battalion_id == battalion.id)) %}
+            <!-- Logged In - Show Edit Options -->
+            <div
+                style="background: #f8f9fa; border: 2px solid #4caf50; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #4caf50;">
+                    <h3
+                        style="color: #2e7d32; margin: 0; display: flex; align-items: center; gap: 10px; font-size: 18px;">
+                        <i class="fas fa-edit"></i> Edit Battalion
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="showChangePasswordModal()"
+                            style="padding: 6px 12px; background: #ff9800; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;">
+                            <i class="fas fa-key"></i> Password
+                        </button>
+                        <a href="{{ url_for('main.logout') }}"
+                            style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 6px; text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Edit Battalion Information -->
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4
+                        style="color: #2e7d32; margin: 0 0 10px 0; font-size: 15px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px;">
+                        <i class="fas fa-info-circle"></i> Details
+                    </h4>
+                    <form id="battalion-edit-form">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                            <div>
+                                <label
+                                    style="display: block; margin-bottom: 4px; color: #333; font-weight: 600; font-size: 13px;">District</label>
+                                <input type="text" id="edit-district" value="{{ battalion.district or '' }}"
+                                    style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 6px; font-size: 13px;">
+                            </div>
+                            <div>
+                                <label
+                                    style="display: block; margin-bottom: 4px; color: #333; font-weight: 600; font-size: 13px;">Cmdt
+                                    Name</label>
+                                <input type="text" id="edit-commandant-name"
+                                    value="{{ battalion.commandant_name or '' }}"
+                                    style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 6px; font-size: 13px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label
+                                style="display: block; margin-bottom: 4px; color: #333; font-weight: 600; font-size: 13px;">Cmdt
+                                Rank</label>
+                            <input type="text" id="edit-commandant-rank" value="{{ battalion.commandant_rank or '' }}"
+                                style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label
+                                style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 13px;">
+                                <i class="fas fa-sitemap"></i> Organization (JSON)
+                            </label>
+                            <textarea id="edit-org-structure" rows="6"
+                                style="width: 100%; padding: 10px; border: 2px solid #4caf50; border-radius: 6px; font-family: monospace; font-size: 12px; line-height: 1.4; background: #fff; resize: vertical;">{{ battalion.organizational_structure or '' }}</textarea>
+                            <div style="margin-top: 5px; display: flex; gap: 5px;">
+                                <button type="button" onclick="formatJSON()"
+                                    style="padding: 4px 10px; background: #2196F3; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer;">Format</button>
+                                <button type="button" onclick="validateJSON()"
+                                    style="padding: 4px 10px; background: #ff9800; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer;">Validate</button>
+                            </div>
+                        </div>
+
+                        <div id="edit-message"
+                            style="display: none; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px;">
+                        </div>
+
+                        <button type="button" onclick="saveBattalionChanges()"
+                            style="width: 100%; padding: 10px; background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Commandant Photo & BHQ Image -->
+                <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <h4
+                        style="color: #2e7d32; margin: 0 0 10px 0; font-size: 15px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px;">
+                        <i class="fas fa-images"></i> Images
+                    </h4>
+
+                    <!-- Cmdt Photo -->
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Commandant
+                            Photo</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="file" id="commandant-photo" accept="image/*"
+                                style="font-size: 12px; width: 100%;">
+                            <button onclick="uploadCommandantPhoto()"
+                                style="white-space: nowrap; padding: 6px 10px; background: #4caf50; color: white; border: none; border-radius: 4px; font-size: 12px; cursor: pointer;">Upload</button>
+                        </div>
+                        <div id="commandant-photo-message"
+                            style="display: none; margin-top: 5px; padding: 5px; font-size: 12px; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <!-- BHQ Image -->
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Battalion
+                            Image</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="file" id="battalion-image" accept="image/*"
+                                style="font-size: 12px; width: 100%;">
+                            <button onclick="uploadBattalionImage()"
+                                style="white-space: nowrap; padding: 6px 10px; background: #4caf50; color: white; border: none; border-radius: 4px; font-size: 12px; cursor: pointer;">Upload</button>
+                        </div>
+                        <div id="battalion-image-message"
+                            style="display: none; margin-top: 5px; padding: 5px; font-size: 12px; border-radius: 4px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Not Logged In - Show Compact Login with Change Password -->
+            <div class="admin-login-container">
+                <h3 style="color: #1b5e20; margin: 0 0 15px 0; font-size: 16px; text-align: center;">
+                    <i class="fas fa-shield-alt"></i> Battalion Admin Login
+                </h3>
+
+                <form method="POST"
+                    action="{{ url_for('main.battalion_detail_login', battalion_id=battalion.battalion_number) }}">
+                    <div style="margin-bottom: 10px;">
+                        <label
+                            style="display: block; margin-bottom: 4px; color: #1b5e20; font-weight: 600; font-size: 12px;">
+                            <i class="fas fa-user"></i> Username
+                        </label>
+                        <input type="text" name="username" value="battalion{{ battalion.battalion_number }}_admin"
+                            readonly
+                            style="width: 100%; padding: 8px; border: 2px solid #81c784; border-radius: 6px; font-size: 13px; background: #f1f8f4; color: #2e7d32; font-weight: 600;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label
+                            style="display: block; margin-bottom: 4px; color: #1b5e20; font-weight: 600; font-size: 12px;">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <div style="position: relative;">
+                            <input type="password" name="password" id="bn-password" placeholder="Enter password"
+                                required
+                                style="width: 100%; padding: 8px 35px 8px 10px; border: 2px solid #81c784; border-radius: 6px; font-size: 13px; background: white;">
+                            <i class="fas fa-eye" id="toggle-pwd" onclick="toggleBnPassword()"
+                                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #2e7d32; font-size: 14px;"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        style="width: 100%; padding: 8px; background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div
+                        style="background: #ffebee; border-left: 3px solid #f44336; padding: 6px 10px; border-radius: 4px; margin-top: 10px; color: #c62828; font-size: 11px;">
+                        <i class="fas fa-exclamation-circle"></i> {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+    </div> <!-- Closing the main container here to allow footer to be full width -->
+
+    <!-- Change Password Modal (for logged-in users) -->
+    <div id="change-password-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+        <div
+            style="background: white; border-radius: 12px; padding: 30px; max-width: 450px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: #2e7d32; margin: 0;"><i class="fas fa-key"></i> Change Password</h3>
+                <button onclick="closeChangePasswordModal()"
+                    style="background: none; border: none; font-size: 24px; color: #666; cursor: pointer;">&times;</button>
+            </div>
+
+            <form id="change-password-form" onsubmit="changePassword(event)">
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">Current
+                        Password</label>
+                    <input type="password" id="current-password" required
+                        style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">New
+                        Password</label>
+                    <input type="password" id="new-password" required
+                        style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">Confirm
+                        New Password</label>
+                    <input type="password" id="confirm-password" required
+                        style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                </div>
+
+                <div id="password-message"
+                    style="display: none; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px;">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit"
+                        style="flex: 1; padding: 10px; background: #4caf50; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-save"></i> Update Password
+                    </button>
+                    <button type="button" onclick="closeChangePasswordModal()"
+                        style="flex: 0.4; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal (for login page - not logged in) -->
+    <div id="login-change-password-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+        <div
+            style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: #2e7d32; margin: 0;"><i class="fas fa-key"></i> Change Password</h3>
+                <button onclick="closeLoginChangePassword()"
+                    style="background: none; border: none; font-size: 24px; color: #666; cursor: pointer;">&times;</button>
+            </div>
+
+            <form id="login-change-password-form" onsubmit="loginChangePassword(event)">
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">Username</label>
+                    <input type="text" id="login-username" value="battalion{{ battalion.battalion_number }}_admin"
+                        readonly
+                        style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; background: #f5f5f5;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">Current
+                        Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="login-current-password" required
+                            style="width: 100%; padding: 10px 40px 10px 10px; border: 2px solid #ddd; border-radius: 6px;">
+                        <i class="fas fa-eye" id="toggle-login-current-pwd" onclick="toggleLoginCurrentPassword()"
+                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666;"></i>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">New
+                        Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="login-new-password" required
+                            style="width: 100%; padding: 10px 40px 10px 10px; border: 2px solid #ddd; border-radius: 6px;">
+                        <i class="fas fa-eye" id="toggle-login-new-pwd" onclick="toggleLoginNewPassword()"
+                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666;"></i>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="display: block; margin-bottom: 5px; color: #333; font-weight: 600; font-size: 13px;">Confirm
+                        New Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="login-confirm-password" required
+                            style="width: 100%; padding: 10px 40px 10px 10px; border: 2px solid #ddd; border-radius: 6px;">
+                        <i class="fas fa-eye" id="toggle-login-confirm-pwd" onclick="toggleLoginConfirmPassword()"
+                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666;"></i>
+                    </div>
+                </div>
+
+                <div id="login-password-message"
+                    style="display: none; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px;">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit"
+                        style="flex: 1; padding: 10px; background: #4caf50; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-save"></i> Update Password
+                    </button>
+                    <button type="button" onclick="closeLoginChangePassword()"
+                        style="flex: 0.4; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">Website Policies</a>
+                    <a href="/contacts">Contact Us</a>
+                    <a href="#">Disclaimer</a>
+                    <a href="#">Sitemap</a>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2026 Andhra Pradesh Special Police</p>
+                    <p>IT Solution powered by National Informatics Centre (NIC), Andhra Pradesh</p>
+                    <p>Content Provided by and Maintained by AP Special Police</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        function toggleBnPassword() {
+            const field = document.getElementById('bn-password');
+            const icon = document.getElementById('toggle-pwd');
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function toggleLoginCurrentPassword() {
+            togglePasswordField('login-current-password', 'toggle-login-current-pwd');
+        }
+
+        function toggleLoginNewPassword() {
+            togglePasswordField('login-new-password', 'toggle-login-new-pwd');
+        }
+
+        function toggleLoginConfirmPassword() {
+            togglePasswordField('login-confirm-password', 'toggle-login-confirm-pwd');
+        }
+
+        function togglePasswordField(fieldId, iconId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById(iconId);
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Format JSON function
+        function formatJSON() {
+            const textarea = document.getElementById('edit-org-structure');
+            try {
+                const jsonObj = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(jsonObj, null, 2);
+                showEditTempMessage('JSON formatted successfully!', 'success');
+            } catch (error) {
+                showEditTempMessage('Invalid JSON format! Please fix errors first.', 'error');
+            }
+        }
+
+        // Validate JSON function
+        function validateJSON() {
+            const textarea = document.getElementById('edit-org-structure');
+            try {
+                JSON.parse(textarea.value);
+                showEditTempMessage('✓ Valid JSON! Ready to save.', 'success');
+            } catch (error) {
+                showEditTempMessage('✗ Invalid JSON: ' + error.message, 'error');
+            }
+        }
+
+        // Temporary message for JSON actions
+        function showEditTempMessage(message, type) {
+            const messageDiv = document.getElementById('edit-message');
+            messageDiv.style.display = 'block';
+
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.borderLeft = '4px solid #28a745';
+            } else {
+                messageDiv.style.background = '#fff3cd';
+                messageDiv.style.color = '#856404';
+                messageDiv.style.borderLeft = '4px solid #ff9800';
+            }
+
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'exclamation') + '-circle"></i> ' + message;
+
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        async function saveBattalionChanges() {
+            const data = {
+                district: document.getElementById('edit-district').value,
+                commandant_name: document.getElementById('edit-commandant-name').value,
+                commandant_rank: document.getElementById('edit-commandant-rank').value,
+                commandant_speech: "",
+                organizational_structure: document.getElementById('edit-org-structure').value
+            };
+
+            try {
+                const response = await fetch('/api/battalion/{{ battalion.battalion_number }}/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                const messageDiv = document.getElementById('edit-message');
+                messageDiv.style.display = 'block';
+
+                if (result.success) {
+                    messageDiv.style.background = '#d4edda';
+                    messageDiv.style.color = '#155724';
+                    messageDiv.style.borderLeft = '4px solid #28a745';
+                    messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + result.message;
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    messageDiv.style.background = '#f8d7da';
+                    messageDiv.style.color = '#721c24';
+                    messageDiv.style.borderLeft = '4px solid #dc3545';
+                    messageDiv.innerHTML = '<i class="fas fa-times-circle"></i> ' + result.message;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to save changes');
+            }
+        }
+
+        async function uploadCommandantPhoto() {
+            const fileInput = document.getElementById('commandant-photo');
+            if (!fileInput.files.length) {
+                showPhotoMessage('commandant-photo-message', 'Please select a file', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('photo', fileInput.files[0]);
+            formData.append('battalion_number', '{{ battalion.battalion_number }}');
+
+            try {
+                const response = await fetch('/api/battalion/upload-commandant-photo', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showPhotoMessage('commandant-photo-message', result.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showPhotoMessage('commandant-photo-message', result.message, 'error');
+                }
+            } catch (error) {
+                showPhotoMessage('commandant-photo-message', 'Upload failed', 'error');
+            }
+        }
+
+        async function deleteCommandantPhoto() {
+            if (!confirm('Are you sure you want to delete the commandant photo?')) return;
+
+            try {
+                const response = await fetch('/api/battalion/delete-commandant-photo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ battalion_number: '{{ battalion.battalion_number }}' })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showPhotoMessage('commandant-photo-message', result.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showPhotoMessage('commandant-photo-message', result.message, 'error');
+                }
+            } catch (error) {
+                showPhotoMessage('commandant-photo-message', 'Delete failed', 'error');
+            }
+        }
+
+        async function uploadBattalionImage() {
+            const fileInput = document.getElementById('battalion-image');
+            if (!fileInput.files.length) {
+                showPhotoMessage('battalion-image-message', 'Please select a file', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            formData.append('battalion_number', '{{ battalion.battalion_number }}');
+
+            try {
+                const response = await fetch('/api/battalion/upload-battalion-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showPhotoMessage('battalion-image-message', result.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showPhotoMessage('battalion-image-message', result.message, 'error');
+                }
+            } catch (error) {
+                showPhotoMessage('battalion-image-message', 'Upload failed', 'error');
+            }
+        }
+
+        async function deleteBattalionImage() {
+            if (!confirm('Are you sure you want to delete the battalion image?')) return;
+
+            try {
+                const response = await fetch('/api/battalion/delete-battalion-image', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ battalion_number: '{{ battalion.battalion_number }}' })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showPhotoMessage('battalion-image-message', result.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showPhotoMessage('battalion-image-message', result.message, 'error');
+                }
+            } catch (error) {
+                showPhotoMessage('battalion-image-message', 'Delete failed', 'error');
+            }
+        }
+
+        function showPhotoMessage(elementId, message, type) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.style.display = 'block';
+
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.borderLeft = '4px solid #28a745';
+            } else {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.borderLeft = '4px solid #dc3545';
+            }
+
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'times') + '-circle"></i> ' + message;
+        }
+
+        function showChangePasswordModal() {
+            document.getElementById('change-password-modal').style.display = 'flex';
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('change-password-modal').style.display = 'none';
+            document.getElementById('change-password-form').reset();
+            document.getElementById('password-message').style.display = 'none';
+        }
+
+        function showLoginChangePassword() {
+            document.getElementById('login-change-password-modal').style.display = 'flex';
+        }
+
+        function closeLoginChangePassword() {
+            document.getElementById('login-change-password-modal').style.display = 'none';
+            document.getElementById('login-change-password-form').reset();
+            document.getElementById('login-password-message').style.display = 'none';
+        }
+
+        async function changePassword(event) {
+            event.preventDefault();
+
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                showPasswordMessage('password-message', 'Passwords do not match!', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showPasswordMessage('password-message', 'Password must be at least 8 characters!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/battalion-admin/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showPasswordMessage('password-message', result.message, 'success');
+                    setTimeout(() => closeChangePasswordModal(), 2000);
+                } else {
+                    showPasswordMessage('password-message', result.message, 'error');
+                }
+            } catch (error) {
+                showPasswordMessage('password-message', 'Failed to change password', 'error');
+            }
+        }
+
+        async function loginChangePassword(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('login-username').value;
+            const currentPassword = document.getElementById('login-current-password').value;
+            const newPassword = document.getElementById('login-new-password').value;
+            const confirmPassword = document.getElementById('login-confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                showLoginPasswordMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showLoginPasswordMessage('Password must be at least 8 characters!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/battalion-admin/login-change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showLoginPasswordMessage(result.message, 'success');
+                    setTimeout(() => {
+                        closeLoginChangePassword();
+                        alert('Password changed successfully! Please login with your new password.');
+                    }, 1500);
+                } else {
+                    showLoginPasswordMessage(result.message, 'error');
+                }
+            } catch (error) {
+                showLoginPasswordMessage('Failed to change password', 'error');
+            }
+        }
+
+        function showPasswordMessage(elementId, message, type) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.style.display = 'block';
+
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.borderLeft = '4px solid #28a745';
+            } else {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.borderLeft = '4px solid #dc3545';
+            }
+
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'times') + '-circle"></i> ' + message;
+        }
+
+        function showLoginPasswordMessage(message, type) {
+            const messageDiv = document.getElementById('login-password-message');
+            messageDiv.style.display = 'block';
+
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.borderLeft = '4px solid #28a745';
+            } else {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.borderLeft = '4px solid #dc3545';
+            }
+
+            messageDiv.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check' : 'times') + '-circle"></i> ' + message;
+        }
+    </script>
+</body>
+
+</html>

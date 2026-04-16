@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Battalion Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .instruction-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #003d82;
+            border-bottom: 3px solid #006644;
+            padding-bottom: 10px;
+        }
+        .step {
+            background: #e3f2fd;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #003d82;
+            border-radius: 5px;
+        }
+        .path {
+            background: #333;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .preview {
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .preview img {
+            width: 100%;
+            display: block;
+        }
+        .button {
+            display: inline-block;
+            background: #003d82;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #006644;
+        }
+        .success {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="instruction-box">
+        <h1>🖼️ Add 2nd Battalion Banner Image</h1>
+        
+        <div class="success">
+            ✅ System is ready to display your 2nd Battalion image!
+        </div>
+
+        <h2>📋 Instructions:</h2>
+        
+        <div class="step">
+            <strong>Step 1:</strong> Save your 2nd Battalion image (the one with emblem and building) to this location:
+            <div class="path">e:\APSP-website\images\battalions\2nd-bn-kurnool.jpg</div>
+        </div>
+
+        <div class="step">
+            <strong>Step 2:</strong> Make sure the filename is exactly: <code>2nd-bn-kurnool.jpg</code>
+        </div>
+
+        <div class="step">
+            <strong>Step 3:</strong> After saving the image, open the 2nd Battalion page:
+            <div class="path">e:\APSP-website\battalion.html?id=2</div>
+        </div>
+
+        <div class="step">
+            <strong>Step 4:</strong> Refresh the page (Press F5) to see your image as the banner!
+        </div>
+
+        <h2>📸 Expected Image:</h2>
+        <div class="preview">
+            <p style="padding: 20px; text-align: center; color: #666;">
+                Your 2nd Battalion building image with:
+                <br>• Battalion emblem on the left
+                <br>• Building with fountain in center
+                <br>• "APSP - KURNOOL" text
+            </p>
+        </div>
+
+        <h2>🎯 Image Requirements:</h2>
+        <ul>
+            <li>Format: JPG or JPEG</li>
+            <li>Recommended width: 1200px or more</li>
+            <li>Aspect ratio: Wide landscape (3:1 or 4:1)</li>
+            <li>File size: Under 2MB for fast loading</li>
+        </ul>
+
+        <h2>🚀 Quick Actions:</h2>
+        <a href="battalion.html?id=2" class="button">View 2nd Battalion Page</a>
+        <a href="battalions.html" class="button">View All Battalions</a>
+        <a href="index.html" class="button">Back to Home</a>
+
+        <h2>⚠️ Troubleshooting:</h2>
+        <div class="step">
+            <strong>If image doesn't show:</strong>
+            <ul>
+                <li>Check the filename is exactly: <code>2nd-bn-kurnool.jpg</code></li>
+                <li>Verify the folder path exists: <code>e:\APSP-website\images\battalions\</code></li>
+                <li>Clear browser cache (Ctrl + Shift + Delete)</li>
+                <li>Try renaming the image file and refreshing</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Check if image exists
+        function checkImage() {
+            const img = new Image();
+            img.onload = function() {
+                document.querySelector('.success').innerHTML = 
+                    '✅ SUCCESS! Your 2nd Battalion image is loaded and ready!';
+            };
+            img.onerror = function() {
+                document.querySelector('.success').innerHTML = 
+                    '⏳ Waiting for image... Please save the image to the location above.';
+                document.querySelector('.success').style.background = '#ff9800';
+            };
+            img.src = 'images/battalions/2nd-bn-kurnool.jpg?' + Date.now();
+        }
+        
+        checkImage();
+        // Recheck every 3 seconds
+        setInterval(checkImage, 3000);
+    </script>
+</body>
+</html>

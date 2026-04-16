@@ -1,0 +1,111 @@
+/* Battalions Page Styles */
+.battalions-section {
+    padding: 50px 0;
+    background: #f5f5f5;
+}
+
+.intro-text {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.intro-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    text-align: justify;
+}
+
+.battalions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.battalion-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.battalion-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #003d82, #006644);
+}
+
+.battalion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.battalion-number {
+    display: none;
+}
+
+.battalion-card h3 {
+    color: #003d82;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.battalion-info {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.battalion-info p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.battalion-info i {
+    color: #003d82;
+    margin-right: 8px;
+    width: 18px;
+}
+
+.battalion-desc {
+    display: none;
+}
+
+.btn-details {
+    display: inline-block;
+    background: linear-gradient(135deg, #003d82, #006644);
+    color: white;
+    padding: 8px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-top: 12px;
+    transition: transform 0.3s;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btn-details:hover {
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .battalions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .battalion-card {
+        padding: 20px;
+    }
+}

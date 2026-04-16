@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - APSP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="images/logo.png" alt="APSP Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ffffff%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23003d82%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                <h2>Admin Panel</h2>
+                <p id="admin-username">Administrator</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" onclick="showSection('home-content')" class="active">
+                        <i class="fas fa-home"></i> Home Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('announcements')">
+                        <i class="fas fa-bullhorn"></i> Announcements
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('events')">
+                        <i class="fas fa-calendar"></i> Events Management
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('battalions')">
+                        <i class="fas fa-shield-alt"></i> Battalions
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('gallery')">
+                        <i class="fas fa-images"></i> Gallery
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('about')">
+                        <i class="fas fa-info-circle"></i> About Page
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('contacts')">
+                        <i class="fas fa-phone"></i> Contacts
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> View Website
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content-admin">
+            <div class="dashboard-header">
+                <h1>Content Management System</h1>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Home Content Section -->
+                <div id="home-content" class="content-section">
+                    <h2><i class="fas fa-home"></i> Home Page Content</h2>
+                    
+                    <h3>Welcome Section</h3>
+                    <div class="form-row">
+                        <input type="text" id="welcome-title" class="form-control" placeholder="Welcome Section Title" value="Welcome to Andhra Pradesh Special Police">
+                    </div>
+                    <div class="form-row">
+                        <textarea id="welcome-text" class="form-control" placeholder="Welcome Section Content">The Andhra Pradesh Special Police (APSP) is a specialized law enforcement force dedicated to maintaining internal security, disaster management, and public order in the state of Andhra Pradesh. Our force comprises highly trained personnel committed to serving the people with dedication and professionalism.</textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('home-welcome')">
+                        <i class="fas fa-save"></i> Save Welcome Section
+                    </button>
+                    <div id="success-home-welcome" class="success-message"></div>
+                </div>
+
+                <!-- Announcements Section -->
+                <div id="announcements" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-bullhorn"></i> Manage Announcements</h2>
+                    
+                    <div class="form-row">
+                        <textarea id="announcements-text" class="form-control" placeholder="Enter announcements (separated by |)">DPC RSIs TO RIs 2024-25 | Combined seniority list of ARSIs 01.01.2024 | ARSI Seniority List 2023 | Commemoration Day 2024 | ID Parade 2024 | Panel of RSI to RI 2023-24</textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('announcements')">
+                        <i class="fas fa-save"></i> Save Announcements
+                    </button>
+                    <div id="success-announcements" class="success-message"></div>
+                </div>
+
+                <!-- Events Section -->
+                <div id="events" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-calendar"></i> Events Management</h2>
+                    
+                    <h3>Add/Edit Event</h3>
+                    <div class="form-row">
+                        <input type="text" id="event-title" class="form-control" placeholder="Event Title">
+                        <input type="text" id="event-image" class="form-control" placeholder="Event Image URL">
+                    </div>
+                    <div class="form-row">
+                        <textarea id="event-description" class="form-control" placeholder="Event Description"></textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('events')">
+                        <i class="fas fa-save"></i> Add Event
+                    </button>
+                    <div id="success-events" class="success-message"></div>
+                </div>
+
+                <!-- Battalions Section -->
+                <div id="battalions" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-shield-alt"></i> Battalions Management</h2>
+                    
+                    <p><strong>Active Battalions:</strong> 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 14, 16</p>
+                    
+                    <h3>Edit Battalion Information</h3>
+                    <div class="form-row">
+                        <select id="battalion-number" class="form-control">
+                            <option value="">Select Battalion</option>
+                            <option value="1">1st Battalion</option>
+                            <option value="2">2nd Battalion</option>
+                            <option value="3">3rd Battalion</option>
+                            <option value="4">4th Battalion</option>
+                            <option value="5">5th Battalion</option>
+                            <option value="6">6th Battalion</option>
+                            <option value="7">7th Battalion</option>
+                            <option value="8">8th Battalion</option>
+                            <option value="9">9th Battalion</option>
+                            <option value="11">11th Battalion</option>
+                            <option value="14">14th Battalion</option>
+                            <option value="16">16th Battalion</option>
+                        </select>
+                        <input type="text" id="battalion-location" class="form-control" placeholder="Battalion Location">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="battalion-commander" class="form-control" placeholder="Commanding Officer">
+                        <input type="text" id="battalion-strength" class="form-control" placeholder="Strength">
+                    </div>
+                    <div class="form-row">
+                        <textarea id="battalion-description" class="form-control" placeholder="Battalion Description"></textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('battalions')">
+                        <i class="fas fa-save"></i> Save Battalion Info
+                    </button>
+                    <div id="success-battalions" class="success-message"></div>
+                </div>
+
+                <!-- Gallery Section -->
+                <div id="gallery" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-images"></i> Gallery Management</h2>
+                    
+                    <h3>Add Gallery Image</h3>
+                    <div class="form-row">
+                        <input type="text" id="gallery-image" class="form-control" placeholder="Image URL">
+                        <input type="text" id="gallery-title" class="form-control" placeholder="Image Title">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="gallery-category" class="form-control" placeholder="Category (Events/Training/Ceremonies)">
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('gallery')">
+                        <i class="fas fa-save"></i> Add to Gallery
+                    </button>
+                    <div id="success-gallery" class="success-message"></div>
+                </div>
+
+                <!-- About Section -->
+                <div id="about" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-info-circle"></i> About Page Content</h2>
+                    
+                    <div class="form-row">
+                        <textarea id="about-content" class="form-control" placeholder="About Page Content">The Andhra Pradesh Special Police was established to handle special security situations and maintain law and order in the state...</textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('about')">
+                        <i class="fas fa-save"></i> Save About Content
+                    </button>
+                    <div id="success-about" class="success-message"></div>
+                </div>
+
+                <!-- Contacts Section -->
+                <div id="contacts" class="content-section" style="display: none;">
+                    <h2><i class="fas fa-phone"></i> Contact Information</h2>
+                    
+                    <div class="form-row">
+                        <input type="text" id="contact-phone" class="form-control" placeholder="Phone Number">
+                        <input type="email" id="contact-email" class="form-control" placeholder="Email Address">
+                    </div>
+                    <div class="form-row">
+                        <textarea id="contact-address" class="form-control" placeholder="Office Address"></textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="saveContent('contacts')">
+                        <i class="fas fa-save"></i> Save Contact Info
+                    </button>
+                    <div id="success-contacts" class="success-message"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

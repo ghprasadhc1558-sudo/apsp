@@ -1,0 +1,103 @@
+<!-- Header -->
+<header>
+    <div class="header-main">
+        <div class="container">
+            <div class="logo-section">
+                <img src="{{ url_for('static', filename='images/image-1767612662159.png') }}" alt="APSP Logo"
+                    class="logo side-logo"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%233949AB%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23FFD700%22 font-size=%2218%22 font-weight=%22bold%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                <div class="logo-text">
+                    <div class="text-content">
+                        <h1>ANDHRA PRADESH SPECIAL POLICE</h1>
+                        <h2 class="telugu-text">ఆంధ్రప్రదేశ్ ప్రత్యేక పోలీస్</h2>
+                    </div>
+
+                </div>
+                <img src="{{ url_for('static', filename='images/Screenshot_6-1-2026_105549_apsp_ap_gov_in-Picsart-AiImageEnhancer-removebg-preview.png') }}"
+                    alt="AP Police Logo" class="logo side-logo"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%23000%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3EAP%3C/text%3E%3Ctext x=%2250%22 y=%2275%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2212%22%3EPOLICE%3C/text%3E%3C/svg%3E';">
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="{{ 'active' if request.path == '/' }}"><i class="fas fa-home"></i> Home</a></li>
+                <li class="dropdown">
+                    <a href="/about" class="{{ 'active' if request.path.startswith('/about') }}"><i class="fas fa-info-circle"></i> About Us</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/about#overview">Overview</a></li>
+                        <li><a href="/about#history">History</a></li>
+                        <li><a href="/about#structure">Organisational Structure</a></li>
+                        <li><a href="/about#officers">Key Officers</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="{{ 'active' if request.path.startswith('/battalion') or request.path == '/battalions' }}"><i class="fas fa-shield-alt"></i> Battalions</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/battalions">All Battalions</a></li>
+                        <li><a href="/battalion/1">1st Battalion</a></li>
+                        <li><a href="/battalion/2">2nd Battalion</a></li>
+                        <li><a href="/battalion/3">3rd Battalion</a></li>
+                        <li><a href="/battalion/4">4th Battalion</a></li>
+                        <li><a href="/battalion/5">5th Battalion</a></li>
+                        <li><a href="/battalion/6">6th Battalion</a></li>
+                        <li><a href="/battalion/7">7th Battalion</a></li>
+                        <li><a href="/battalion/8">8th Battalion</a></li>
+                        <li><a href="/battalion/9">9th Battalion</a></li>
+                        <li><a href="/battalion/11">11th Battalion</a></li>
+                        <li><a href="/battalion/14">14th Battalion</a></li>
+                        <li><a href="/battalion/16">16th Battalion</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="{{ 'active' if request.path.startswith('/sdrf') }}"><i class="fas fa-users"></i> APSDRF</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/sdrf">About SDRF</a></li>
+                        <li><a href="/sdrf/operations">Operations</a></li>
+                        <li><a href="/sdrf/training">Training</a></li>
+                    </ul>
+                </li>
+                <li><a href="/gallery" class="{{ 'active' if request.path == '/gallery' }}"><i class="fas fa-images"></i> Gallery</a></li>
+                
+                <!-- Separated Services -->
+                <li class="dropdown">
+                    <a href="/services" class="{{ 'active' if request.path == '/services' }}"><i class="fas fa-concierge-bell"></i> Services</a>
+                    <ul class="dropdown-menu">
+                        {% if nav_services %}
+                            {% for service in nav_services %}
+                                <li><a href="{{ service.url }}" target="_blank">{{ service.title }}</a></li>
+                            {% endfor %}
+                            <li class="divider"><hr style="margin: 5px 0; border: 0; border-top: 1px solid #ddd;"></li>
+                        {% endif %}
+                        <li><a href="/services">All Services</a></li>
+                    </ul>
+                </li>
+
+                <!-- Separated Events -->
+                <li class="dropdown">
+                    <a href="/events" class="{{ 'active' if request.path == '/events' }}"><i class="fas fa-calendar-alt"></i> Events</a>
+                    <ul class="dropdown-menu">
+                        {% if nav_events %}
+                            {% for event in nav_events %}
+                                <li><a href="{% if event.pdf_file %}{{ url_for('static', filename='pdfs/' + event.pdf_file) }}{% else %}/events{% endif %}" {% if event.pdf_file %}target="_blank"{% endif %}>{{ event.title|truncate(30) }}</a></li>
+                            {% endfor %}
+                            <li class="divider"><hr style="margin: 5px 0; border: 0; border-top: 1px solid #ddd;"></li>
+                        {% endif %}
+                        <li><a href="/events">All Events</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/contacts" class="{{ 'active' if request.path == '/contacts' }}"><i class="fas fa-phone"></i> Contact Us</a></li>
+                <li><a href="{{ url_for('main.admin_login') }}" class="admin-link"><i class="fas fa-user-shield"></i> Admin Login</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+</header>

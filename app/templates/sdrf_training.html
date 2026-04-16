@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDRF Training - Andhra Pradesh Special Police</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		.logo {
+			width: 80px !important;
+			height: 80px !important;
+			object-fit: cover;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: crisp-edges;
+			border-radius: 50%;
+			padding: 0px;
+			object-position: center;
+			background-color: transparent;
+		}
+
+		.sdrf-container {
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 30px 20px;
+			min-height: calc(100vh - 500px);
+		}
+
+		.sdrf-header {
+			background: linear-gradient(135deg, #FF8C00, #FF6500);
+			color: white;
+			padding: 50px 30px;
+			border-radius: 12px;
+			margin-bottom: 40px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);
+		}
+
+		.sdrf-header h1 {
+			font-size: 36px;
+			margin-bottom: 15px;
+			font-weight: 700;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+		}
+
+		.sdrf-header p {
+			font-size: 18px;
+			opacity: 0.95;
+		}
+
+		.pdf-container {
+			background: white;
+			border-radius: 10px;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+		}
+
+		@media (max-width: 768px) {
+			.sdrf-header h1 {
+				font-size: 28px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	{% include 'includes/header.html' %}
+
+	<div class="sdrf-container">
+		<div class="sdrf-header">
+			<h1><i class="fas fa-graduation-cap"></i> SDRF Training Programs</h1>
+			<p>Advanced Training & Skill Development for Disaster Response</p>
+		</div>
+
+		<!-- PDF Viewer without Toolbar -->
+		<div class="pdf-container">
+			{% if pdf_path %}
+			<iframe src="{{ url_for('static', filename=pdf_path) }}#toolbar=0&navpanes=0&scrollbar=1"
+				style="width: 100%; height: 900px; border: none;" title="SDRF Training PDF">
+			</iframe>
+			{% else %}
+			<div style="padding: 60px; text-align: center; background: #fef3c7; border-radius: 10px;">
+				<i class="fas fa-file-pdf" style="font-size: 64px; color: #FF8C00; margin-bottom: 20px;"></i>
+				<h3 style="color: #FF8C00; margin-bottom: 15px;">No PDF Uploaded</h3>
+				<p style="color: #666;">Please upload a Training PDF from the admin panel.</p>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+	{% include 'includes/footer.html' %}
+
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

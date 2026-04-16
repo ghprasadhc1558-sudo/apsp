@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - APSP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-left">
+                    <span>Andhra Pradesh Government</span>
+                </div>
+                <div class="top-right">
+                    <a href="#" onclick="adjustFontSize('decrease')"><i class="fas fa-minus"></i> A</a>
+                    <a href="#" onclick="adjustFontSize('normal')">A</a>
+                    <a href="#" onclick="adjustFontSize('increase')"><i class="fas fa-plus"></i> A</a>
+                    <a href="admin-login.html" class="admin-link"><i class="fas fa-user-shield"></i> Admin Login</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="logo-section">
+                    <img src="images/logo.png" alt="APSP Logo" class="logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23003d82%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22%3EAPSP%3C/text%3E%3C/svg%3E'">
+                    <div class="logo-text">
+                        <h1>ANDHRA PRADESH SPECIAL POLICE</h1>
+                        <p>Serving with Pride, Protecting with Courage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-info-circle"></i> About Us <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Overview</a></li>
+                            <li><a href="history.html">History</a></li>
+                            <li><a href="organization.html">Organization Structure</a></li>
+                            <li><a href="officers.html">Officers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-shield-alt"></i> Battalions <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="battalions.html">All Battalions</a></li>
+                            <li><a href="battalion.html?id=1">1st Battalion</a></li>
+                            <li><a href="battalion.html?id=2">2nd Battalion</a></li>
+                            <li><a href="battalion.html?id=3">3rd Battalion</a></li>
+                            <li><a href="battalion.html?id=4">4th Battalion</a></li>
+                            <li><a href="battalion.html?id=5">5th Battalion</a></li>
+                            <li><a href="battalion.html?id=6">6th Battalion</a></li>
+                            <li><a href="battalion.html?id=7">7th Battalion</a></li>
+                            <li><a href="battalion.html?id=8">8th Battalion</a></li>
+                            <li><a href="battalion.html?id=9">9th Battalion</a></li>
+                            <li><a href="battalion.html?id=11">11th Battalion</a></li>
+                            <li><a href="battalion.html?id=14">14th Battalion</a></li>
+                            <li><a href="battalion.html?id=16">16th Battalion</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-users"></i> APSDRF <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sdrf.html">About SDRF</a></li>
+                            <li><a href="sdrf-operations.html">Operations</a></li>
+                            <li><a href="sdrf-training.html">Training</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="gallery.html" class="active"><i class="fas fa-images"></i> Gallery</a></li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-newspaper"></i> News & Events <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="news.html">Latest News</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="announcements.html">Announcements</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contacts.html"><i class="fas fa-phone"></i> Contact Us</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-images"></i> Photo Gallery</h1>
+            <p>A visual journey through our events, training, and ceremonies</p>
+        </div>
+    </section>
+
+    <!-- Gallery Filter -->
+    <section class="gallery-filter">
+        <div class="container">
+            <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+            <button class="filter-btn" onclick="filterGallery('events')">Events</button>
+            <button class="filter-btn" onclick="filterGallery('training')">Training</button>
+            <button class="filter-btn" onclick="filterGallery('ceremonies')">Ceremonies</button>
+            <button class="filter-btn" onclick="filterGallery('operations')">Operations</button>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Events -->
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/republic-day.jpg" alt="Republic Day Parade" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23FF6B35%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22200%22 cy=%22150%22 r=%2260%22 fill=%22%23001489%22/%3E%3Ctext x=%2250%25%22 y=%2280%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2228%22 font-weight=%22bold%22%3ERepublic Day%3C/text%3E%3Ctext x=%2250%25%22 y=%2290%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22%3EParade 2024%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Republic Day Parade 2024</h3>
+                        <p>APSP contingent marching at Republic Day celebrations</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/republic-day-parade.jpg" alt="Republic Day Contingent" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23003d82%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23FF9933%22 width=%22400%22 height=%2280%22/%3E%3Crect fill=%22%23FFFFFF%22 y=%2280%22 width=%22400%22 height=%2280%22/%3E%3Crect fill=%22%23138808%22 y=%22160%22 width=%22400%22 height=%2280%22/%3E%3Ccircle cx=%22200%22 cy=%22120%22 r=%2240%22 fill=%22%23001489%22 stroke=%22%23FFFFFF%22 stroke-width=%223%22/%3E%3Ctext x=%2250%25%22 y=%2288%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3E26 January%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Republic Day Contingent</h3>
+                        <p>APSP personnel in formation at Republic Day parade</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/republic-day-celebration.jpg" alt="Republic Day Celebration" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Cdefs%3E%3CradialGradient id=%22grad2%22%3E%3Cstop offset=%220%25%22 style=%22stop-color:%23FF9933%22/%3E%3Cstop offset=%22100%25%22 style=%22stop-color:%23138808%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill=%22url(%23grad2)%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22200%22 cy=%22150%22 r=%2270%22 fill=%22none%22 stroke=%22white%22 stroke-width=%225%22/%3E%3Ctext x=%2250%25%22 y=%2245%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2230%22 font-weight=%22bold%22%3EREPUBLIC DAY%3C/text%3E%3Ctext x=%2250%25%22 y=%2265%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2222%22%3ECelebration%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Republic Day Celebration</h3>
+                        <p>Grand celebration of Republic Day at APSP headquarters</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/independence-day-2025.jpg" alt="Independence Day 2025" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Cdefs%3E%3ClinearGradient id=%22grad1%22 x1=%220%25%22 y1=%220%25%22 x2=%220%25%22 y2=%22100%25%22%3E%3Cstop offset=%220%25%22 style=%22stop-color:%23FF9933;stop-opacity:1%22 /%3E%3Cstop offset=%2250%25%22 style=%22stop-color:%23FFFFFF;stop-opacity:1%22 /%3E%3Cstop offset=%22100%25%22 style=%22stop-color:%23138808;stop-opacity:1%22 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill=%22url(%23grad1)%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2240%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2232%22 font-weight=%22bold%22%3E15 AUGUST%3C/text%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23000080%22 font-size=%2220%22 font-weight=%22bold%22%3EHAPPY INDEPENDENCE DAY%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Happy Independence Day 2025</h3>
+                        <p>15 August - Celebrating India's 79th Independence Day</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/independence-day.jpg" alt="Independence Day" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23FF9933%22 width=%22400%22 height=%22100%22/%3E%3Crect fill=%22%23FFFFFF%22 y=%22100%22 width=%22400%22 height=%22100%22/%3E%3Crect fill=%22%23138808%22 y=%22200%22 width=%22400%22 height=%22100%22/%3E%3Ccircle cx=%22200%22 cy=%22150%22 r=%2235%22 fill=%22%23001489%22/%3E%3Ctext x=%2250%25%22 y=%2255%25%22 text-anchor=%22middle%22 fill=%22%23000080%22 font-size=%2220%22 font-weight=%22bold%22%3EIndependence Day%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Independence Day 2024</h3>
+                        <p>Flag hoisting ceremony at APSP headquarters</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/independence-day-flag.jpg" alt="Flag Hoisting" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23001f3f%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23FF9933%22 x=%22150%22 y=%2230%22 width=%22100%22 height=%2230%22/%3E%3Crect fill=%22%23FFFFFF%22 x=%22150%22 y=%2260%22 width=%22100%22 height=%2230%22/%3E%3Crect fill=%22%23138808%22 x=%22150%22 y=%2290%22 width=%22100%22 height=%2230%22/%3E%3Crect fill=%22%23666%22 x=%22195%22 y=%22120%22 width=%2210%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2292%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2222%22%3EFlag Hoisting Ceremony%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Flag Hoisting Ceremony</h3>
+                        <p>Independence Day flag hoisting by officers</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/independence-march.jpg" alt="Independence Day March" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23138808%22 width=%22400%22 height=%22300%22/%3E%3Cpath fill=%22%23FF9933%22 d=%22M0,0 L400,0 L400,80 Q200,100 0,80 Z%22/%3E%3Cpath fill=%22%23FFFFFF%22 d=%22M0,80 Q200,100 400,80 L400,150 Q200,170 0,150 Z%22/%3E%3Ctext x=%2250%25%22 y=%2280%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2226%22 font-weight=%22bold%22%3E15 August March%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Independence Day March</h3>
+                        <p>APSP personnel marching on Independence Day</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="events">
+                    <img src="images/gallery/ekta-diwas.jpg" alt="Ekta Diwas" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3EEkta Diwas%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Ekta Diwas Celebration</h3>
+                        <p>Unity Day celebration promoting national integration</p>
+                    </div>
+                </div>
+
+                <!-- Training -->
+                <div class="gallery-item" data-category="training">
+                    <img src="images/gallery/physical-training.jpg" alt="Physical Training" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3EPhysical Training%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Physical Training Session</h3>
+                        <p>Daily physical fitness training of APSP personnel</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="training">
+                    <img src="images/gallery/weapons-training.jpg" alt="Weapons Training" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3EWeapons Training%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Weapons Training</h3>
+                        <p>Advanced weapons handling and shooting practice</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="training">
+                    <img src="images/gallery/tactical-training.jpg" alt="Tactical Training" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3ETactical Training%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Tactical Operations Training</h3>
+                        <p>Special operations and tactical maneuvers training</p>
+                    </div>
+                </div>
+
+                <!-- Ceremonies -->
+                <div class="gallery-item" data-category="ceremonies">
+                    <img src="images/gallery/republic-day-2025.jpg" alt="Republic Day 2025" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23FF6B35%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2245%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3EHAPPY REPUBLIC DAY%3C/text%3E%3Ctext x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23FFD700%22 font-size=%2236%22 font-weight=%22bold%22%3E2025%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Happy Republic Day 2025</h3>
+                        <p>Celebrating 76th Republic Day of India with pride and honor</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="ceremonies">
+                    <img src="images/gallery/passing-out.jpg" alt="Passing Out Parade" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3EPassing Out Parade%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Passing Out Parade</h3>
+                        <p>Graduation ceremony for newly trained recruits</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="ceremonies">
+                    <img src="images/gallery/medals-ceremony.jpg" alt="Medal Ceremony" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3EMedal Ceremony%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>DGP's Commendation Disc</h3>
+                        <p>Award ceremony honoring distinguished service</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="ceremonies">
+                    <img src="images/gallery/commemoration.jpg" alt="Commemoration Day" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2218%22%3ECommemoration Day%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Commemoration Day 2024</h3>
+                        <p>Remembering and honoring our martyrs</p>
+                    </div>
+                </div>
+
+                <!-- Operations -->
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/sdrf-operation.jpg" alt="SDRF Operation" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23cc0000%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22200%22 cy=%22100%22 r=%2250%22 fill=%22white%22/%3E%3Cpath fill=%22%23cc0000%22 d=%22M200,75 L200,125 M175,100 L225,100%22 stroke=%22%23cc0000%22 stroke-width=%228%22/%3E%3Ctext x=%2250%25%22 y=%2275%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3EAPSDRF Operations%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>APSDRF Disaster Response</h3>
+                        <p>State Disaster Response Force in action</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/sdrf-rescue.jpg" alt="SDRF Rescue" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23006644%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23FF6B00%22 x=%2250%22 y=%22100%22 width=%22120%22 height=%2280%22 rx=%2210%22/%3E%3Ctext x=%2250%25%22 y=%2280%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2226%22 font-weight=%22bold%22%3ESDRF Rescue Team%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>SDRF Rescue Operation</h3>
+                        <p>Emergency rescue operations during natural disaster</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/sdrf-flood-rescue.jpg" alt="Flood Rescue" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%230077be%22 width=%22400%22 height=%22300%22/%3E%3Cpath fill=%22%23003d82%22 d=%22M0,200 Q100,180 200,200 T400,200 L400,300 L0,300 Z%22/%3E%3Crect fill=%22%23FF6B00%22 x=%22150%22 y=%2280%22 width=%22100%22 height=%2260%22 rx=%225%22/%3E%3Ctext x=%2250%25%22 y=%2280%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2222%22 font-weight=%22bold%22%3EFlood Rescue%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Flood Rescue Operation</h3>
+                        <p>APSDRF conducting flood rescue operations</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/sdrf-training-drill.jpg" alt="SDRF Training" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23FF8C00%22 width=%22400%22 height=%22300%22/%3E%3Ccircle cx=%22100%22 cy=%22100%22 r=%2240%22 fill=%22%23cc0000%22/%3E%3Ccircle cx=%22200%22 cy=%22100%22 r=%2240%22 fill=%22%23cc0000%22/%3E%3Ccircle cx=%22300%22 cy=%22100%22 r=%2240%22 fill=%22%23cc0000%22/%3E%3Ctext x=%2250%25%22 y=%2275%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3ESDRF Training Drill%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>SDRF Training Drill</h3>
+                        <p>Regular disaster response training exercises</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/vehicles.jpg" alt="Specialized Vehicles" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22400%22 height=%22300%22/%3E%3Crect fill=%22%23FF6B00%22 x=%2280%22 y=%22120%22 width=%22240%22 height=%2280%22 rx=%2210%22/%3E%3Crect fill=%22%23333%22 x=%22100%22 y=%22180%22 width=%2250%22 height=%2250%22 rx=%2225%22/%3E%3Crect fill=%22%23333%22 x=%22250%22 y=%22180%22 width=%2250%22 height=%2250%22 rx=%2225%22/%3E%3Ctext x=%2250%25%22 y=%2280%25%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2220%22%3ESpecialized Vehicles%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>APSDRF Specialised Vehicles</h3>
+                        <p>Modern equipment for disaster management</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="operations">
+                    <img src="images/gallery/rescue-operation.jpg" alt="Rescue Operation" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23003d82%22 width=%22400%22 height=%22300%22/%3E%3Cpolygon points=%22200,50 150,150 250,150%22 fill=%22%23FFD700%22/%3E%3Ctext x=%2250%25%22 y=%2275%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2222%22 font-weight=%22bold%22%3ERescue Operations%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>Rescue Operation</h3>
+                        <p>APSP personnel conducting rescue operations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="website-policy.html">Website Policies</a>
+                    <a href="contacts.html">Contact Us</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="sitemap.html">Sitemap</a>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2026 Andhra Pradesh Special Police</p>
+                    <p>IT Solution powered by National Informatics Centre (NIC), Andhra Pradesh</p>
+                    <p>Content Provided by and Maintained by AP Special Police</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/gallery.js"></script>
+</body>
+</html>

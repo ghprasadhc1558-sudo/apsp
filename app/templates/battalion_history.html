@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ battalion.name }} - History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            border-radius: 50%;
+            padding: 0px;
+            object-position: center;
+            background-color: transparent;
+        }
+
+        .history-container {
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .history-header {
+            background: linear-gradient(135deg, #003d82 0%, #00275a 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .history-content {
+            background: #f8f9fa;
+            padding: 40px;
+            border-left: 4px solid #003d82;
+            border-radius: 8px;
+            margin-top: 30px;
+            line-height: 1.8;
+            margin-bottom: 60px;
+        }
+
+        .back-link {
+            color: #003d82;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="history-container">
+        <a href="{{ url_for('main.battalion_detail', battalion_id=battalion.battalion_number) }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to {{ battalion.name }}
+        </a>
+
+        <div class="history-header">
+            <h1 style="margin: 0; font-size: 2.5rem;"><i class="fas fa-history"></i> {{ battalion.name }} - History</h1>
+            <p style="margin-top: 10px; font-size: 1.1rem; opacity: 0.9;">Discover the legacy and journey of our
+                battalion</p>
+        </div>
+
+        <div class="history-content">
+            <h2 style="color: #003d82; margin-bottom: 20px;"><i class="fas fa-book-open"></i> Battalion History</h2>
+
+            {% if battalion.history %}
+            <div style="color: #333;">
+                {{ battalion.history | safe }}
+            </div>
+            {% else %}
+            <p style="font-style: italic; color: #666; font-size: 1.1rem;">
+                The detailed history of {{ battalion.name }} is currently being compiled. This section will be updated
+                soon with comprehensive information about the battalion's formation, major operations, achievements, and
+                significant milestones.
+            </p>
+
+            <div style="margin-top: 30px; padding: 25px; background: white; border-radius: 8px;">
+                <h3 style="color: #003d82; margin-bottom: 15px;"><i class="fas fa-info-circle"></i> About {{
+                    battalion.name }}</h3>
+                <p style="color: #555; line-height: 1.8;">{{ battalion.description }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
