@@ -40,7 +40,14 @@ def create_app():
             return json.loads(s)
         return {}
 
-    from . import routes
-    app.register_blueprint(routes.bp)
+    # Register routes
+    try:
+        from . import routes
+        app.register_blueprint(routes.bp)
+    except Exception as e:
+        print(f"Error loading routes: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
 
     return app
